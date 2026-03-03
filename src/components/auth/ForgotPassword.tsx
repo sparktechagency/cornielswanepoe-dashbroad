@@ -2,29 +2,31 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../ui//button"
 import { useState } from "react";
 import { ArrowLeft, Mail } from "lucide-react";
+import { useForgetPasswordMutation } from "../../redux/features/auth/authApi";
+import { toast } from "sonner";
 
 export default function ForgotPassword() {
 
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false);
 
+  const [forgotPassword] = useForgetPasswordMutation();;
+
+
   const navigate = useNavigate();
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // TODO: Replace with actual password reset API call
-      // const response = await fetch('/api/auth/forgot-password', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email })
-      // });
-
-      navigate("/otp-verify")
+      const response = await forgotPassword({ email }).unwrap();
+      console.log("Password reset response:", response);
+      navigate("/otp-verify");
     } catch (err: any) {
-      console.error('Password reset error:', err);
+      toast.error(err?.data?.message || "Failed to send reset instructions. Please try again.");
     }
+
   };
 
   return (

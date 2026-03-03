@@ -2,24 +2,18 @@ import { Building2, Calendar, DollarSign, Download, TrendingDown, TrendingUp, Us
 import { useState } from "react";
 import { Button } from "../../ui/button";
 import { monthlyData } from "../../../assets/data";
+import { useGetAnalyticsQuery } from "../../../redux/features/dashboard/dashboardApi";
 
 
 export default function Statics() {
-  const [selectedYear, setSelectedYear] = useState('2024');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
 
+    const {data: dashboardData, isLoading, error} = useGetAnalyticsQuery(selectedYear);
+
+    console.log("dashboardData:", dashboardData);
+    
     // Current year data
-  const currentYearData = monthlyData[selectedYear as keyof typeof monthlyData];
-  const currentMonth = currentYearData[currentYearData.length - 1];
-  const previousMonth = currentYearData[currentYearData.length - 2];
 
-  // Calculate growth percentages
-  const totalGrowth = ((currentMonth.total - previousMonth.total) / previousMonth.total * 100).toFixed(1);
-  const paidGrowth = ((currentMonth.paid - previousMonth.paid) / previousMonth.paid * 100).toFixed(1);
-  const freeGrowth = ((currentMonth.free - previousMonth.free) / previousMonth.free * 100).toFixed(1);
-
-    const totalUsers = currentMonth.total;
-  const totalPaid = currentMonth.paid;
-  const totalFree = currentMonth.free;
 
   return (
     <div className="">
@@ -52,63 +46,63 @@ export default function Statics() {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Total Users */}
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        
         <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
               <Users className="w-6 h-6 text-[#D4AF37]" />
             </div>
-            <div className={`flex items-center gap-1 text-sm ${parseFloat(totalGrowth) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {parseFloat(totalGrowth) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-              {Math.abs(parseFloat(totalGrowth))}%
+            <div className={`flex items-center gap-1 text-sm ${parseFloat(dashboardData?.totalUsers?.growthPercent) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {parseFloat(dashboardData?.totalUsers?.growthPercent) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+              {Math.abs(parseFloat(dashboardData?.totalUsers?.growthPercent || '0'))}%
             </div>
           </div>
-          <h3 className="text-3xl font-bold text-white mb-1">{totalUsers.toLocaleString()}</h3>
+          <h3 className="text-3xl font-bold text-white mb-1">{dashboardData?.totalUsers?.count?.toLocaleString()}</h3>
           <p className="text-gray-400 text-sm">Total Users</p>
         </div>
 
-        {/* Free Users */}
+        
         <div className="bg-[#111111] border border-blue-400/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-blue-400/10 flex items-center justify-center">
               <Users className="w-6 h-6 text-blue-400" />
             </div>
-            <div className={`flex items-center gap-1 text-sm ${parseFloat(freeGrowth) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {parseFloat(freeGrowth) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-              {Math.abs(parseFloat(freeGrowth))}%
+            <div className={`flex items-center gap-1 text-sm ${parseFloat(dashboardData?.freeUsers?.growthPercent) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {parseFloat(dashboardData?.freeUsers?.growthPercent) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+              {Math.abs(parseFloat(dashboardData?.freeUsers?.growthPercent || '0'))}%
             </div>
           </div>
-          <h3 className="text-3xl font-bold text-white mb-1">{totalFree.toLocaleString()}</h3>
+          <h3 className="text-3xl font-bold text-white mb-1">{dashboardData?.freeUsers?.count?.toLocaleString()}</h3>
           <p className="text-gray-400 text-sm">Free Users</p>
         </div>
 
-        {/* Paid Users */}
+        
         <div className="bg-[#111111] border border-green-400/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-green-400/10 flex items-center justify-center">
               <DollarSign className="w-6 h-6 text-green-400" />
             </div>
-            <div className={`flex items-center gap-1 text-sm ${parseFloat(paidGrowth) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {parseFloat(paidGrowth) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-              {Math.abs(parseFloat(paidGrowth))}%
+            <div className={`flex items-center gap-1 text-sm ${parseFloat(dashboardData?.paidUsers?.growthPercent) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {parseFloat(dashboardData?.paidUsers?.growthPercent) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+              {Math.abs(parseFloat(dashboardData?.paidUsers?.growthPercent || '0'))}%
             </div>
           </div>
-          <h3 className="text-3xl font-bold text-white mb-1">{totalPaid.toLocaleString()}</h3>
+          <h3 className="text-3xl font-bold text-white mb-1">{dashboardData?.paidUsers?.count?.toLocaleString()}</h3>
           <p className="text-gray-400 text-sm">Paid Users</p>
         </div>
 
-        {/* Stock Listings */}
+        
         <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
               <Building2 className="w-6 h-6 text-[#D4AF37]" />
             </div>
           </div>
-          <h3 className="text-3xl font-bold text-white mb-1">89</h3>
+          <h3 className="text-3xl font-bold text-white mb-1">{dashboardData?.stockListings?.count?.toLocaleString()} </h3>
           <p className="text-gray-400 text-sm">Stock Listings</p>
         </div>
-      </div>
+      </div> 
     </div>
 
   )

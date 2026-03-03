@@ -1,5 +1,3 @@
-import { ChartAreaInteractive } from './chart-area-interactive'
-import RecentActivity from './RecentActivity'
 import UserRoles from './RoleDistribution'
 import StatsCards from './Statics'
 import SubscriptionChart from './SubscriptionChart'
@@ -15,12 +13,6 @@ const Dashboard = () => {
         <UserRoles />
       </div>
         <SubscriptionChart />
-      <div className=" flex items-center gap-5 mb-6">
-        <ChartAreaInteractive />
-        {/* <SalesChart />
-        <OrdersChart /> */}
-      </div>
-      <RecentActivity />
     </div>
   )
 }

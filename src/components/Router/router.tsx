@@ -22,12 +22,13 @@ import InvestorBrief from "../dashboard/InvestorBrief/InvestorBrief";
 import CMS from "../dashboard/CMS/CMS";
 import Settings from "../dashboard/Setting/Setting";
 import Notifications from "../dashboard/Notifications/Notifications";
+import PrivateRoute from "./PrivateRouter";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        // element: <PrivateRoute> <MainLayout /></PrivateRoute>,
-        element: <MainLayout />,
+        element: <PrivateRoute> <MainLayout /></PrivateRoute>,
+        // element: <MainLayout />,
         errorElement: <ErrorPage />,
         children: [
             {

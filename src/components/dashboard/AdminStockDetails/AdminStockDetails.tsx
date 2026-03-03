@@ -39,6 +39,10 @@ export default function  AdminStockDetails() {
   const [showNoteModal, setShowNoteModal] = useState(false);
   const [selectedParty, setSelectedParty] = useState<InterestedParty | null>(null);
 
+
+  console.log("id id", id);
+
+  
   // Check if viewing from approval page
   const isApprovalView = location.pathname.includes('/approvals/');
   
