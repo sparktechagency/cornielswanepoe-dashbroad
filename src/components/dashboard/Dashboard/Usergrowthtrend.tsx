@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -33,11 +33,8 @@ const currentYear = new Date().getFullYear();
 export default function UserGrowthTrend() {
   const [selectedYear, setSelectedYear] = useState(currentYear); // default to current year
   
-  const { data: userGrowth, isLoading, refetch } = useGetUsersGrowthQuery(selectedYear);
-
-useEffect(() => {
-    refetch()
-  }, [selectedYear]);
+  const { data: userGrowth, isLoading } = useGetUsersGrowthQuery(selectedYear, { skip: !selectedYear });
+  
   
   if (isLoading) {
     return (
@@ -67,6 +64,7 @@ useEffect(() => {
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
             className=" min-w-24 text-white text-sm focus:outline-none cursor-pointer font-medium"
           >
+            <option value={currentYear} className="bg-black ">{currentYear}</option>
             <option value={currentYear - 1} className="bg-black ">{currentYear - 1}</option>
             <option value={currentYear - 2} className="bg-black">{currentYear - 2}</option>
             <option value={currentYear - 3} className="bg-black">{currentYear - 3}</option>

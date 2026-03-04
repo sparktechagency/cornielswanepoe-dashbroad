@@ -10,6 +10,14 @@ const dashboardApi = baseApi.injectEndpoints({
             query: (year) => `/dashboard/user-growth-trend?year=${year}`,
             transformResponse: (res: { data: any }) => res.data,
         }),
+        getRoleDistribution: builder.query({
+            query: () => `/dashboard/distribution-by-role-type`,
+            transformResponse: (res: { data: any }) => res.data,
+        }),
+        getSubscription: builder.query({
+            query: (year) => `/dashboard/subscription-breakdown?year=${year}`,
+            transformResponse: (res: { data: any }) => res.data,
+        }),
         getOverView: builder.query({
             query: () => `/analytics/overview${location?.search}`,
             transformResponse: (res: { data: any }) => res?.data
@@ -25,5 +33,7 @@ export const {
     useGetAnalyticsQuery,
     useGetUsersGrowthQuery,
     useGetOverViewQuery,
+    useGetSubscriptionQuery,
+    useGetRoleDistributionQuery,
     useGetRevenueGrowthQuery
 } = dashboardApi;

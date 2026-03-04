@@ -19,6 +19,10 @@ import {
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { Button } from '../../ui/button';
+import { useGetSingleStocksQuery, useStockApprovalMutation } from '../../../redux/features/stock/stockApi';
+import { imageUrl } from '../../../redux/base/baseAPI';
+import { toast } from 'sonner';
+import Swal from 'sweetalert2';
 
 interface InterestedParty {
   id: number;
@@ -31,7 +35,7 @@ interface InterestedParty {
   notes: string;
 }
 
-export default function  AdminStockDetails() {
+export default function AdminStockDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,14 +43,13 @@ export default function  AdminStockDetails() {
   const [showNoteModal, setShowNoteModal] = useState(false);
   const [selectedParty, setSelectedParty] = useState<InterestedParty | null>(null);
 
+  const { data: stockData } = useGetSingleStocksQuery(id!);
+  const [stockApproval, { isLoading: isApproving }] = useStockApprovalMutation({})
 
-  console.log("id id", id);
 
-  
-  // Check if viewing from approval page
+
   const isApprovalView = location.pathname.includes('/approvals/');
-  
-  // Check if viewing from approval page (pending item)
+
   const isPending = new URLSearchParams(location.search).get('pending') === 'true';
 
   // Mock property data
@@ -167,7 +170,40 @@ export default function  AdminStockDetails() {
     }
   };
 
-  return (
+  const handleApproveStock = async (status: { status: string }) => {
+  const isApproving = status.status === 'active';
+
+  const result = await Swal.fire({
+    title: isApproving ? 'Approve Listing?' : 'Reject Listing?',
+    text: isApproving
+      ? 'This will publish the stock listing and make it visible to users.'
+      : 'This will reject the listing. Please confirm your decision.',
+    icon: isApproving ? 'success' : 'warning',
+    showCancelButton: true,
+    confirmButtonText: isApproving ? 'Yes, Approve' : 'Yes, Reject',
+    cancelButtonText: 'Cancel',
+    background: '#111111',
+    color: '#ffffff',
+    confirmButtonColor: isApproving ? '#22c55e' : '#ef4444',
+    cancelButtonColor: '#374151',
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    const response = await stockApproval({ id, status }).unwrap();
+    console.log("approve response:", response);
+    
+    if (response?.success) {
+      toast.success(response?.message);
+    }
+  } catch (error: any) {
+    toast.error(error?.data?.message);
+  }
+};
+
+
+return (
     <div className="p-8">
       {/* Header */}
       <div className="mb-6">
@@ -180,35 +216,26 @@ export default function  AdminStockDetails() {
         </button>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-serif text-white mb-2">{property.title}</h1>
+            <h1 className="text-4xl font-serif text-white mb-2">{stockData?.title}</h1>
             <div className="flex items-center gap-2 text-gray-400">
               <MapPin className="w-4 h-4" />
-              {property.location}
+              {stockData?.location}
             </div>
           </div>
           <div className="flex items-center gap-3">
             {isPending ? (
               // Approval buttons for pending items
               <>
-                <Button 
-                  onClick={() => {
-                    console.log('Approving stock:', property.id);
-                    alert('Stock listing approved and published!');
-                    navigate('/approvals');
-                  }}
+                <Button
+                  onClick={()=>handleApproveStock({status: 'active'})}
                   className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white"
                 >
                   <CheckCircle className="w-4 h-4" />
                   Approve & Publish
                 </Button>
-                <Button 
-                  onClick={() => {
-                    const reason = prompt('Rejection reason (optional):');
-                    console.log('Rejecting stock:', property.id, 'Reason:', reason);
-                    alert('Stock listing rejected!');
-                    navigate('/approvals');
-                  }}
-                  variant="outline" 
+                <Button
+                  onClick={()=>handleApproveStock({status: 'cancelled'})}
+                  variant="outline"
                   className="flex items-center gap-2 text-red-400 border-red-400/20 hover:border-red-400"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -255,10 +282,10 @@ export default function  AdminStockDetails() {
           <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Property Images</h2>
             <div className="grid grid-cols-2 gap-4">
-              {property.images.map((imgUrl, index) => (
+              {stockData?.images.map((imgUrl: string, index: number) => (
                 <div key={index} className="aspect-video rounded-lg overflow-hidden">
-                  <img 
-                    src={imgUrl} 
+                  <img
+                    src={imageUrl + imgUrl}
                     alt={`${property.title} - Image ${index + 1}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
@@ -280,7 +307,7 @@ export default function  AdminStockDetails() {
                   <DollarSign className="w-4 h-4" />
                   Price Range
                 </div>
-                <p className="text-[#D4AF37] font-bold text-lg">{property.approximatePrice}</p>
+                <p className="text-[#D4AF37] font-bold text-lg">{stockData?.price}</p>
               </div>
 
               <div className="p-4 bg-[#1A1A1A] rounded-lg">
@@ -288,7 +315,7 @@ export default function  AdminStockDetails() {
                   <Building2 className="w-4 h-4" />
                   Property Size
                 </div>
-                <p className="text-white font-bold text-lg">{property.size}</p>
+                <p className="text-white font-bold text-lg">{stockData?.size}</p>
               </div>
 
               <div className="p-4 bg-[#1A1A1A] rounded-lg">
@@ -297,7 +324,7 @@ export default function  AdminStockDetails() {
                   Date Added
                 </div>
                 <p className="text-white font-medium">
-                  {new Date(property.dateAdded).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  {new Date(stockData?.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                 </p>
               </div>
 
@@ -306,7 +333,7 @@ export default function  AdminStockDetails() {
                   <User className="w-4 h-4" />
                   Owner
                 </div>
-                <p className="text-white font-medium text-sm">{property.owner}</p>
+                <p className="text-white font-medium text-sm">{stockData?.owner?.name} ({stockData?.owner?.role})</p>
               </div>
             </div>
           </div>
@@ -314,14 +341,14 @@ export default function  AdminStockDetails() {
           {/* Description */}
           <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Description</h2>
-            <p className="text-gray-300 leading-relaxed">{property.description}</p>
+            <p className="text-gray-300 leading-relaxed">{stockData?.description}</p>
           </div>
 
           {/* Features */}
           <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Property Features</h2>
             <ul className="space-y-2">
-              {property.features.map((feature, index) => (
+              {stockData?.features?.map((feature: string, index: number) => (
                 <li key={index} className="flex items-center gap-2 text-gray-300">
                   <CheckCircle className="w-4 h-4 text-green-400" />
                   {feature}
@@ -461,7 +488,7 @@ export default function  AdminStockDetails() {
             {/* Content */}
             <div className="p-6">
               <h2 className="text-2xl font-serif text-white mb-6">Investor Contact Details</h2>
-              
+
               <div className="space-y-4">
                 {/* Name */}
                 <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
@@ -475,7 +502,7 @@ export default function  AdminStockDetails() {
                     <p className="text-xs text-gray-500 uppercase tracking-wider">Email Address</p>
                     <Mail className="w-4 h-4 text-[#D4AF37]" />
                   </div>
-                  <a 
+                  <a
                     href={`mailto:${selectedParty.email}`}
                     className="text-[#D4AF37] hover:text-[#F4CF57] transition-colors font-medium break-all"
                   >
@@ -489,7 +516,7 @@ export default function  AdminStockDetails() {
                     <p className="text-xs text-gray-500 uppercase tracking-wider">Phone Number</p>
                     <Phone className="w-4 h-4 text-[#D4AF37]" />
                   </div>
-                  <a 
+                  <a
                     href={`tel:${selectedParty.phone}`}
                     className="text-[#D4AF37] hover:text-[#F4CF57] transition-colors font-medium"
                   >
@@ -518,11 +545,11 @@ export default function  AdminStockDetails() {
                 <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Interest Expressed On</p>
                   <p className="text-white font-medium">
-                    {new Date(selectedParty.interestDate).toLocaleDateString('en-US', { 
+                    {new Date(selectedParty.interestDate).toLocaleDateString('en-US', {
                       weekday: 'long',
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
                     })}
                   </p>
                 </div>

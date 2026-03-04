@@ -1,427 +1,251 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
-
 import {
-    AlertTriangle,
-    ArrowLeft,
-    Ban,
-    Calendar,
-    CheckCircle,
-    DollarSign,
-    Eye,
-    Flag,
-    MapPin,
-    MessageSquare,
-    Shield,
-    XCircle
+  AlertTriangle,
+  ArrowLeft,
+  Ban,
+  Calendar,
+  CheckCircle,
+  DollarSign,
+  Flag,
+  MessageSquare
 } from 'lucide-react';
+import { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useGetSingleRequestsQuery, useRequestApprovalMutation } from '../../../redux/features/request/requestApi';
+import Swal from 'sweetalert2';
+import { toast } from 'sonner';
 
 export function AdminRequestDetails() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Check if this is an approval view (from approvals/requests/:id)
+
+  const { data:request, isLoading, error } = useGetSingleRequestsQuery(id!, {
+    skip: !id,
+  });
+  const [requestApproval] = useRequestApprovalMutation();
+
   const isApprovalView = location.pathname.includes('/approvals/');
-  
-  // Check if this is a pending item (not yet approved)
-  const isPending = new URLSearchParams(location.search).get('pending') === 'true';
-  
-  const [message, setMessage] = useState('');
-  const [requestStatus, setRequestStatus] = useState<'Open' | 'Active' | 'Closed'>('Active');
 
-  // Mock request data
-  const request = {
-    id: Number(id),
-    title: 'Luxury Penthouse in Sandton',
-    description: 'Looking for a modern 3-bedroom penthouse with city views, preferably in Sandton CBD area. Must have premium finishes and secure parking.',
-    userName: 'John Anderson', // Real name (admin sees this)
-    anonymousId: 'Investor001', // What other users see
-    userType: 'Investor',
-    category: 'Residential',
-    budget: 'R 8,000,000 - R 12,000,000',
-    location: 'Sandton, Johannesburg',
-    postedDate: '2024-03-15',
-    status: 'Active'
-  };
+  const [requestStatus, setRequestStatus] = useState(request?.status || 'pending');
 
-  // Mock conversation messages
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: 'Seller_001',
-      senderName: 'Michael Smith', // Real name
-      role: 'seller',
-      text: 'I have a property that matches your requirements. 3-bedroom penthouse in Sandton with excellent city views.',
-      timestamp: '2024-03-16 10:30',
-      status: 'delivered'
-    },
-    {
-      id: 2,
-      sender: request.anonymousId,
-      senderName: request.userName,
-      role: 'user',
-      text: 'That sounds interesting. What is your asking price and what floor is it on?',
-      timestamp: '2024-03-16 11:15',
-      status: 'delivered'
-    },
-    {
-      id: 3,
-      sender: 'Seller_001',
-      senderName: 'Michael Smith',
-      role: 'seller',
-      text: 'Price is R 10,500,000. It\'s on the 15th floor with panoramic views. Property has modern finishes installed last year.',
-      timestamp: '2024-03-16 11:42',
-      status: 'delivered'
-    },
-    {
-      id: 4,
-      sender: 'Admin',
-      senderName: 'System Admin',
-      role: 'admin',
-      text: 'I\'ve reviewed both parties\' credentials. You may proceed with detailed discussions. Remember, no personal contact information should be shared in this chat.',
-      timestamp: '2024-03-16 14:20',
-      status: 'delivered'
+  const handleApproveRequest = async (status: { status: string }) => {
+  const isApproving = status.status === 'active';
+
+  const result = await Swal.fire({
+    title: isApproving ? 'Approve Listing?' : 'Reject Listing?',
+    text: isApproving
+      ? 'This will publish the stock listing and make it visible to users.'
+      : 'This will reject the listing. Please confirm your decision.',
+    icon: isApproving ? 'success' : 'warning',
+    showCancelButton: true,
+    confirmButtonText: isApproving ? 'Yes, Approve' : 'Yes, Reject',
+    cancelButtonText: 'Cancel',
+    background: '#111111',
+    color: '#ffffff',
+    confirmButtonColor: isApproving ? '#22c55e' : '#ef4444',
+    cancelButtonColor: '#374151',
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    const response = await requestApproval({ id, status }).unwrap();
+    console.log("approve response:", response);
+    
+    if (response?.success) {
+      toast.success(response?.message);
     }
-  ]);
+  } catch (error: any) {
+    toast.error(error?.data?.message);
+  }
+};
 
-//   @ts-ignore
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
-    const newMessage = {
-      id: messages.length + 1,
-      sender: 'Admin',
-      senderName: 'System Admin',
-      role: 'admin',
-      text: message,
-      timestamp: new Date().toLocaleString('en-ZA', { 
-        year: 'numeric', 
-        month: '2-digit', 
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
-      status: 'sent'
-    };
-
-    setMessages([...messages, newMessage as any]);
-    setMessage('');
+  const handleReject = () => {
+    const reason = prompt('Rejection reason (optional):');
+    // TODO: call reject mutation with reason
+    alert('Request rejected!');
+    navigate('/approvals');
   };
 
-  const getStatusColor = (status: string) => {
-    const colors = {
-      'Open': 'bg-blue-400/10 text-blue-400 border-blue-400/20',
-      'Active': 'bg-green-400/10 text-green-400 border-green-400/20',
-      'Closed': 'bg-gray-400/10 text-gray-400 border-gray-400/20'
-    };
-    return colors[status as keyof typeof colors] || colors.Open;
+  const formatDate = (isoString: string) => {
+    return new Date(isoString).toLocaleDateString('en-ZA', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
-  return (
-    <div className="p-8">
-      {/* Header */}
-      <div className="mb-6">
+  if (isLoading) {
+    return (
+      <div className="p-8">
+        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6 animate-pulse">
+          <div className="h-8 bg-gray-700 rounded w-3/4 mb-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="h-24 bg-gray-800 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !request) {
+    return (
+      <div className="p-8 text-center">
+        <div className="text-red-400 mb-4">Failed to load request details</div>
         <button
           onClick={() => navigate(isApprovalView ? '/approvals' : '/requests')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-4"
+          className="text-[#D4AF37] hover:underline"
         >
-          <ArrowLeft className="w-4 h-4" />
-          {isApprovalView ? 'Back to Approvals' : 'Back to Requests Board'}
+          ← Back to list
         </button>
       </div>
+    );
+  }
 
-      {/* Main Content */}
+  const isPending = request?.status === 'pending';
+
+  return (
+    <div className="p-6 md:p-8">
+      {/* Header / Back */}
+      <button
+        onClick={() => navigate(isApprovalView ? '/approvals' : '/requests')}
+        className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        {isApprovalView ? 'Back to Approvals' : 'Back to Requests Board'}
+      </button>
+
       <div className="space-y-6">
-        
-        {/* Title & Status Card */}
-        <div         
-          className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6"
-        >
-          <div className="flex items-start justify-between mb-6">
-            <h1 className="text-2xl font-serif text-white">{request.title}</h1>
-            <span className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border ${getStatusColor(requestStatus)}`}>
-              {requestStatus === 'Active' && <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />}
-              {requestStatus}
-            </span>
-          </div>
+        {/* Main Request Card */}
+        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+            <h1 className="text-2xl md:text-3xl font-serif text-white">{request?.title}</h1>
 
-          {/* Info Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-[#0A0A0A] border border-[#D4AF37]/10 rounded-lg p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Real Name (Admin View)</p>
-              <p className="text-[#D4AF37] font-medium">{request.userName}</p>
-            </div>
-            <div className="bg-[#0A0A0A] border border-[#D4AF37]/10 rounded-lg p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Anonymous ID</p>
-              <p className="text-white font-medium">{request.anonymousId}</p>
-            </div>
-            <div className="bg-[#0A0A0A] border border-[#D4AF37]/10 rounded-lg p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">User Type</p>
-              <p className="text-white font-medium">{request.userType}</p>
-            </div>
-            <div className="bg-[#0A0A0A] border border-[#D4AF37]/10 rounded-lg p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Category</p>
-              <p className="text-white font-medium">{request.category}</p>
-            </div>
-          </div>
-
-          {/* Additional Info */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
-            <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-gray-500" />
-              {request.postedDate}
-            </span>
-            <span className="w-1 h-1 bg-gray-600 rounded-full" />
-            <span className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-gray-500" />
-              {request.location}
-            </span>
-            <span className="w-1 h-1 bg-gray-600 rounded-full" />
-            <span className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-[#D4AF37] font-medium">{request.budget}</span>
-            </span>
-          </div>
-        </div>
-
-        {/* Description Card */}
-        <div                    
-          className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6"
-        >
-          <h3 className="text-xs text-gray-500 uppercase tracking-widest mb-4">Request Details</h3>
-          <p className="text-gray-300 leading-relaxed">{request.description}</p>
-        </div>
-
-        {/* Admin Actions Card */}
-        <div 
-          className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6"
-        >
-          <h3 className="text-xs text-gray-500 uppercase tracking-widest mb-4">
-            {isPending ? 'Approval Actions' : 'Admin Actions'}
-          </h3>
-          
-          {isPending ? (
-            // Approval buttons for pending requests
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => {
-                  console.log('Approving request:', request.id);
-                  alert('Request approved and published to Request Board!');
-                  navigate('/approvals');
-                }}
-                className="flex items-center gap-2 px-6 py-3 bg-green-500 text-white border border-green-400/20 rounded-lg font-medium hover:bg-green-600 transition-colors"
-              >
+            <span
+              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium border ${
+                isPending
+                  ? 'bg-yellow-500/10 text-yellow-400 border-yellow-400/30'
+                  : 'bg-green-500/10 text-green-400 border-green-400/30'
+              }`}
+            >
+              {isPending ? (
+                <AlertTriangle className="w-4 h-4" />
+              ) : (
                 <CheckCircle className="w-4 h-4" />
+              )}
+              {request?.status?.toUpperCase()}
+            </span>
+          </div>
+
+          {/* Key Info Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <InfoCard label="Investor Name" value={request?.createdBy?.name || '—'} />
+            <InfoCard label="Email" value={request?.createdBy?.email || '—'} />
+            <InfoCard label="Topic / Category" value={request?.topic} />
+            <InfoCard label="Budget Range" value={request?.budgetRange} highlight />
+          </div>
+
+          {/* Dates & Location */}
+          <div className="flex flex-wrap gap-5 text-sm text-gray-400">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-gray-500" />
+              Posted: {formatDate(request?.createdAt)}
+            </div>
+            {/* If you later add location field */}
+            {/* <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-gray-500" />
+              {request?.location || 'Not specified'}
+            </div> */}
+            <div className="flex items-center gap-2">
+              <DollarSign className="w-4 h-4 text-[#D4AF37]" />
+              <span className="text-[#D4AF37] font-medium">{request?.budgetRange}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6">
+          <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-4">Request Description</h3>
+          <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+            {request?.description || 'No description provided.'}
+          </p>
+        </div>
+
+        {/* Admin Actions */}
+        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6">
+          <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-4">
+            {isPending ? 'Approval Actions' : 'Manage Request'}
+          </h3>
+
+          {isPending ? (
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={() => handleApproveRequest({ status: 'active' })}
+                className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+              >
+                <CheckCircle className="w-5 h-5" />
                 Approve & Publish
               </button>
+
               <button
-                onClick={() => {
-                  const reason = prompt('Rejection reason (optional):');
-                  console.log('Rejecting request:', request.id, 'Reason:', reason);
-                  alert('Request rejected!');
-                  navigate('/approvals');
-                }}
-                className="flex items-center gap-2 px-6 py-3 bg-red-500/10 text-red-400 border border-red-400/20 rounded-lg font-medium hover:bg-red-500/20 transition-colors"
+                onClick={handleReject}
+                className="flex items-center gap-2 px-6 py-3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-400/30 rounded-lg font-medium transition-colors"
               >
-                <Ban className="w-4 h-4" />
+                <Ban className="w-5 h-5" />
                 Reject Request
               </button>
             </div>
           ) : (
-            // Status management buttons for published requests
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => setRequestStatus('Open')}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-400 border border-blue-400/20 rounded-lg text-sm font-medium hover:bg-blue-500/20 transition-colors"
-              >
-                <AlertTriangle className="w-4 h-4" />
+            <div className="flex flex-wrap gap-3">
+              <button className="px-4 py-2 bg-blue-600/20 text-blue-300 rounded-lg text-sm hover:bg-blue-600/30">
                 Mark as Open
               </button>
-              <button
-                onClick={() => setRequestStatus('Active')}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 border border-green-400/20 rounded-lg text-sm font-medium hover:bg-green-500/20 transition-colors"
-              >
-                <CheckCircle className="w-4 h-4" />
+              <button className="px-4 py-2 bg-green-600/20 text-green-300 rounded-lg text-sm hover:bg-green-600/30">
                 Mark as Active
               </button>
-              <button
-                onClick={() => setRequestStatus('Closed')}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-500/10 text-gray-400 border border-gray-400/20 rounded-lg text-sm font-medium hover:bg-gray-500/20 transition-colors"
-              >
-                <XCircle className="w-4 h-4" />
+              <button className="px-4 py-2 bg-gray-600/20 text-gray-300 rounded-lg text-sm hover:bg-gray-600/30">
                 Close Request
               </button>
-              <button
-                onClick={() => alert('Content flagged for review')}
-                className="flex items-center gap-2 px-4 py-2 bg-orange-500/10 text-orange-400 border border-orange-400/20 rounded-lg text-sm font-medium hover:bg-orange-500/20 transition-colors ml-auto"
-              >
-                <Flag className="w-4 h-4" />
+              <button className="ml-auto px-4 py-2 bg-orange-600/20 text-orange-300 rounded-lg text-sm hover:bg-orange-600/30">
+                <Flag className="w-4 h-4 inline mr-1" />
                 Flag Content
               </button>
             </div>
           )}
         </div>
 
-        {/* Individual Chats - Only show for approved/published requests */}
+        {/* Placeholder for Chats (to be implemented later) */}
         {!isPending && (
-          <div        
-            className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl overflow-hidden"
-          >
-            {/* Header */}
-            <div className="px-6 py-4 border-b border-[#D4AF37]/20 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <MessageSquare className="w-5 h-5 text-[#D4AF37]" />
-                <div>
-                  <h3 className="text-white font-medium">Individual Chats</h3>
-                  <p className="text-xs text-gray-500">3 active conversations</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-lg px-3 py-1.5">
-                <Shield className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span className="text-xs text-[#D4AF37] font-medium">Admin View - All Chats</span>
-              </div>
-            </div>
-
-            {/* Chat Cards */}
-            <div className="p-6 space-y-3 bg-[#0A0A0A]">
-              {/* Chat 1: Seller_001 with Buyer_789 */}
-              <div
-                onClick={() => navigate(`/requests/${id}/chat/1`)}
-                className="bg-[#111111] border border-white/5 hover:border-[#D4AF37]/30 rounded-lg p-4 transition-all cursor-pointer group"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center text-sm font-medium flex-shrink-0">
-                    SE
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-300">
-                          Ravi Kumar <span className="text-gray-600 font-normal text-xs">(shows as Seller_001)</span>
-                        </span>
-                        <span className="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] rounded-full">
-                          Active Chat
-                        </span>
-                      </div>
-                      <span className="text-xs text-gray-600">2 hours ago</span>
-                    </div>
-                    <p className="text-sm text-gray-400 line-clamp-2 mb-3">
-                      I have a property that matches your requirements. 3-bedroom penthouse in Sandton...
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600">
-                        <MessageSquare className="w-3 h-3 inline mr-1" />
-                        7 messages
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/requests/${id}/chat/1`);
-                        }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#D4AF37] text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        View Chat
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Chat 2: Developer_042 with Buyer_789 */}
-              <div
-                onClick={() => navigate(`/requests/${id}/chat/2`)}
-                className="bg-[#111111] border border-white/5 hover:border-[#D4AF37]/30 rounded-lg p-4 transition-all cursor-pointer group"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-sm font-medium flex-shrink-0">
-                    DE
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-300">
-                          Sarah Williams <span className="text-gray-600 font-normal text-xs">(shows as Developer_042)</span>
-                        </span>
-                        <span className="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] rounded-full">
-                          Active Chat
-                        </span>
-                      </div>
-                      <span className="text-xs text-gray-600">5 hours ago</span>
-                    </div>
-                    <p className="text-sm text-gray-400 line-clamp-2 mb-3">
-                      I'm currently developing a similar property in the same area. Expected completion in 8 months...
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600">
-                        <MessageSquare className="w-3 h-3 inline mr-1" />
-                        4 messages
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/requests/${id}/chat/2`);
-                        }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#D4AF37] text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        View Chat
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Chat 3: Agent_105 with Buyer_789 */}
-              <div
-                onClick={() => navigate(`/requests/${id}/chat/3`)}
-                className="bg-[#111111] border border-white/5 hover:border-[#D4AF37]/30 rounded-lg p-4 transition-all cursor-pointer group"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-sm font-medium flex-shrink-0">
-                    AG
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-300">
-                          John Mbatha <span className="text-gray-600 font-normal text-xs">(shows as Agent_105)</span>
-                        </span>
-                        <span className="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] rounded-full">
-                          Active Chat
-                        </span>
-                      </div>
-                      <span className="text-xs text-gray-600">1 day ago</span>
-                    </div>
-                    <p className="text-sm text-gray-400 line-clamp-2 mb-3">
-                      I represent multiple property owners in Sandton. I can arrange viewings for 5 properties matching...
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600">
-                        <MessageSquare className="w-3 h-3 inline mr-1" />
-                        9 messages
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/requests/${id}/chat/3`);
-                        }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#D4AF37] text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        View Chat
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6 text-center text-gray-500 py-12">
+            <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
+            <p className="text-lg mb-2">Individual Conversations</p>
+            <p className="text-sm">
+              Chat functionality will be available once users start messaging on this request?.
+            </p>
           </div>
         )}
-
       </div>
+    </div>
+  );
+}
+
+function InfoCard({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="bg-[#0A0A0A] border border-[#D4AF37]/10 rounded-lg p-4">
+      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">{label}</p>
+      <p className={`font-medium ${highlight ? 'text-[#D4AF37]' : 'text-white'}`}>
+        {value || '—'}
+      </p>
     </div>
   );
 }

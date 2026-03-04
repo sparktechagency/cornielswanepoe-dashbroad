@@ -15,7 +15,7 @@ import { Button } from '../../ui/button';
 import { imageUrl } from '../../../redux/base/baseAPI';
 
 export default function StockApproval() {
-  const { data: pendingStock, isLoading, error } = useGetPendingStocksQuery();
+  const { data: pendingStock, isLoading, error } = useGetPendingStocksQuery({});
   const navigate = useNavigate();
 
   const formatDate = (isoString: string) =>
