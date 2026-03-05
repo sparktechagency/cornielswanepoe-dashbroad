@@ -1,126 +1,53 @@
-import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import {
-    ArrowLeft,
-    Ban,
-    CheckCheck,
-    Eye,
-    Flag,
-    Send,
-    Shield
+  ArrowLeft,
+  Ban,
+  CheckCheck,
+  Flag,
+  Shield,
+  Lock,
+  Unlock
 } from 'lucide-react';
-
-const avatarColors = [
-  'bg-purple-500/20 text-purple-300',
-  'bg-blue-500/20 text-blue-300',
-  'bg-green-500/20 text-green-300',
-  'bg-amber-500/20 text-amber-300',
-];
+import { imageUrl } from '../../../redux/base/baseAPI';
+import { useBlockConversationMutation,  useGetMessagesQuery } from '../../../redux/features/chat/chatApi';
+import { useGetProfileQuery } from '../../../redux/features/user/userApi';
+import ChatFooter from './ChatFooter';
+import { toast } from 'sonner';
 
 export default function AdminIndividualChat() {
   const { requestId, chatId } = useParams();
   const navigate = useNavigate();
-  const [message, setMessage] = useState('');
 
-  // Mock chat data based on chatId
-  const chat = {
-    1: {
-      participant: 'Seller_001',
-      participantName: 'Ravi Kumar',
-      requestTitle: 'Luxury Penthouse in Sandton',
-      buyer: 'Buyer_789',
-      buyerName: 'John Anderson',
-    },
-    2: {
-      participant: 'Developer_042',
-      participantName: 'Sarah Williams',
-      requestTitle: 'Luxury Penthouse in Sandton',
-      buyer: 'Buyer_789',
-      buyerName: 'John Anderson',
-    },
-    3: {
-      participant: 'Agent_105',
-      participantName: 'John Mbatha',
-      requestTitle: 'Luxury Penthouse in Sandton',
-      buyer: 'Buyer_789',
-      buyerName: 'John Anderson',
-    },
-  }[Number(chatId)] || {
-    participant: 'Seller_001',
-    participantName: 'Ravi Kumar',
-    requestTitle: 'Luxury Penthouse in Sandton',
-    buyer: 'Buyer_789',
-    buyerName: 'John Anderson',
+  const { data: messagesData, isLoading } = useGetMessagesQuery(chatId!, { skip: !chatId });
+  const { data: profileData } = useGetProfileQuery({});
+  const [blockConversation] = useBlockConversationMutation();
+  // const [unblockConversation] = useUnblockConversationMutation();
+
+  const isBlocked = messagesData?.conversation?.status === 'blocked';
+
+  const handleBlockConversation = async () => {
+    try {
+      const response = await blockConversation(chatId!).unwrap();
+      if (response?.success) {
+        toast.success(response?.message);
+        navigate(`/requests/${requestId}`);
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: chat.participant,
-      senderName: chat.participantName,
-      role: 'seller',
-      text: 'I have a property that matches your requirements. 3-bedroom penthouse in Sandton with excellent city views.',
-      timestamp: '10:30 AM',
-      status: 'delivered',
-    },
-    {
-      id: 2,
-      sender: chat.buyer,
-      senderName: chat.buyerName,
-      role: 'user',
-      text: 'That sounds interesting. What is your asking price and what floor is it on?',
-      timestamp: '11:15 AM',
-      status: 'delivered',
-    },
-    {
-      id: 3,
-      sender: chat.participant,
-      senderName: chat.participantName,
-      role: 'seller',
-      text: 'Price is R 10,500,000. It\'s on the 15th floor with panoramic views. Property has modern finishes installed last year.',
-      timestamp: '11:42 AM',
-      status: 'delivered',
-    },
-    {
-      id: 4,
-      sender: 'Admin',
-      senderName: 'System Admin',
-      role: 'admin',
-      text: 'I\'ve reviewed both parties\' credentials. You may proceed with detailed discussions. Remember, no personal contact information should be shared in this chat.',
-      timestamp: '2:20 PM',
-      status: 'delivered',
-    },
-    {
-      id: 5,
-      sender: chat.buyer,
-      senderName: chat.buyerName,
-      role: 'user',
-      text: 'Thank you admin. I would like to know more about the finishes and amenities.',
-      timestamp: '2:35 PM',
-      status: 'delivered',
-    },
-  ]);
-
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
-    const newMessage = {
-      id: messages.length + 1,
-      sender: 'Admin',
-      senderName: 'System Admin',
-      role: 'admin',
-      text: message,
-      timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-      status: 'sent',
-    };
-
-    setMessages(prev => [...prev, newMessage as any]);
-    setMessage('');
+  const handleUnblockConversation = async () => {
+    // try {
+    //   const response = await unblockConversation(chatId!).unwrap();
+    //   if (response?.success) {
+    //     toast.success(response?.message);
+    //   }
+    // } catch (error: any) {
+    //   toast.error(error?.data?.message);
+    // }
   };
-
-  const colorIndex = Number(chatId) % avatarColors.length;
 
   return (
     <div className="h-screen flex flex-col bg-[#0A0A0A]">
@@ -137,37 +64,44 @@ export default function AdminIndividualChat() {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium ${avatarColors[colorIndex]}`}>
-                {chat.participant.slice(0, 2).toUpperCase()}
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium `}>
               </div>
+              <img src={imageUrl + messagesData?.conversation?.ownerId?.image} alt={messagesData?.conversation?.ownerId?.name} className='h-14 w-14 rounded-full' />
               <div>
-                <h1 className="text-lg text-white font-medium">
-                  {chat.participantName} <span className="text-gray-600 font-normal text-sm">(shows as {chat.participant})</span>
+                <h1 className="text-md! text-white font-medium">
+                  {messagesData?.conversation?.ownerId?.name}
                 </h1>
                 <p className="text-xs text-gray-500">
-                  Chatting with: <span className="text-gray-400">{chat.buyerName} (shows as {chat.buyer})</span>
+                  Chatting with: <span className="text-gray-400">{messagesData?.conversation?.initiatorId?.name}</span>
                 </p>
                 <p className="text-xs text-gray-500">
-                  Regarding: <span className="text-gray-400">{chat.requestTitle}</span>
+                  Regarding: <span className="text-gray-400">{messagesData?.conversation?.postId?.title}</span>
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-lg px-3 py-1.5">
-              <Shield className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-xs text-[#D4AF37] font-medium">Admin Monitoring</span>
+            <div className="flex flex-col items-center justify-end gap-3">
+              <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-lg px-3 py-1.5">
+                <Shield className="w-4 h-4 text-[#D4AF37]" />
+                <span className="text-xs text-[#D4AF37] font-medium">Admin Monitoring</span>
+              </div>
+              {isBlocked ? (
+                <button
+                  onClick={handleUnblockConversation}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 text-green-400 border border-green-400/20 rounded-lg text-xs font-medium hover:bg-green-500/20 transition-colors"
+                >
+                  <Unlock className="w-3.5 h-3.5" />
+                  Unblock Chat
+                </button>
+              ) : (
+                <button
+                  onClick={handleBlockConversation}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-400/20 rounded-lg text-xs font-medium hover:bg-red-500/20 transition-colors"
+                >
+                  <Flag className="w-3.5 h-3.5" />
+                  Flag Chat
+                </button>
+              )}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Privacy Notice */}
-      <div className="bg-[#111111] border-b border-[#D4AF37]/10">
-        <div className="max-w-6xl mx-auto px-6 py-3">
-          <div className="flex items-center gap-2 bg-[#D4AF37]/5 border border-[#D4AF37]/20 rounded-lg px-4 py-2">
-            <Eye className="w-4 h-4 text-[#D4AF37] flex-shrink-0" />
-            <p className="text-xs text-gray-400">
-              <span className="text-[#D4AF37] font-medium">Admin View:</span> You can see both parties' real names and identities. Users only see anonymous IDs.
-            </p>
           </div>
         </div>
       </div>
@@ -175,131 +109,108 @@ export default function AdminIndividualChat() {
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-4xl mx-auto px-6 py-6 space-y-4">
-          {messages.map((msg, idx:number) => (
-            <div
-              key={idx}             
-              className={`flex ${
-                msg.role === 'admin' ? 'justify-center' : msg.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
-            >
-              <div className={`max-w-[70%] ${msg.role === 'admin' ? 'w-full max-w-2xl' : ''}`}>
-                {/* Sender Info */}
-                <div
-                  className={`flex items-center gap-2 mb-1.5 px-1 ${
-                    msg.role === 'admin'
-                      ? 'justify-center'
-                      : msg.role === 'user'
-                      ? 'justify-end'
-                      : 'justify-start'
-                  }`}
-                >
-                  <span
-                    className={`text-xs font-medium ${
-                      msg.role === 'admin'
-                        ? 'text-[#D4AF37]'
-                        : msg.role === 'user'
-                        ? 'text-blue-400'
-                        : 'text-gray-400'
-                    }`}
+          {messagesData?.messages?.map((msg: any, idx: number) => {
+            const isAdmin = msg.senderId?._id.toString() === profileData?._id;
+            const isUser = messagesData?.conversation?.initiatorId?._id?.toString() === msg.senderId?._id.toString();
+            return (
+              <div
+                key={msg._id || idx}
+                className={`flex ${isAdmin ? 'justify-center' : isUser ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`max-w-[70%] ${isAdmin ? 'w-full max-w-2xl' : ''}`}>
+                  {/* Sender Info */}
+                  <div
+                    className={`flex items-center gap-2 mb-1.5 px-1 ${isAdmin ? 'justify-center' : isUser ? 'justify-end' : 'justify-start'}`}
                   >
-                    {msg.senderName}
-                    {msg.role !== 'admin' && (
-                      <span className="text-gray-600 font-normal ml-1 text-[11px]">
-                        (shows as {msg.sender})
-                      </span>
-                    )}
-                    {msg.role === 'admin' && (
-                      <span className="ml-2 text-[10px] bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 rounded">
-                        ADMIN
-                      </span>
-                    )}
-                  </span>
-                  <span className="text-xs text-gray-600">{msg.timestamp}</span>
-                </div>
+                    <span
+                      className={`text-xs font-medium ${isAdmin ? 'text-[#D4AF37]' : isUser ? 'text-blue-400' : 'text-gray-400'}`}
+                    >
+                      {msg.senderId?.name}
+                      {!isAdmin && (
+                        <span className="text-gray-600 font-normal ml-1 text-[11px]">
+                          (shows as {msg.senderAlias})
+                        </span>
+                      )}
+                      {isAdmin && (
+                        <span className="ml-2 text-[10px] bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 rounded">
+                          ADMIN
+                        </span>
+                      )}
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      {new Date(msg.createdAt).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                  </div>
 
-                {/* Message Bubble */}
-                <div
-                  className={`rounded-2xl px-4 py-3 ${
-                    msg.role === 'admin'
+                  {/* Message Bubble */}
+                  <div
+                    className={`rounded-2xl px-4 py-3 ${isAdmin
                       ? 'bg-[#D4AF37]/10 border border-[#D4AF37]/30'
-                      : msg.role === 'user'
-                      ? 'bg-blue-600/20 border border-blue-500/30'
-                      : 'bg-[#1A1A1A] border border-white/10'
-                  }`}
-                >
-                  <p className="text-sm text-white leading-relaxed">{msg.text}</p>
+                      : isUser
+                        ? 'bg-blue-600/20 border border-blue-500/30'
+                        : 'bg-[#1A1A1A] border border-white/10'
+                      }`}
+                  >
+                    {msg.content && (
+                      <p className="text-sm text-white leading-relaxed">{msg.content}</p>
+                    )}
 
-                  {msg.role === 'user' && (
-                    <div className="flex items-center justify-end gap-1 mt-2">
-                      <CheckCheck
-                        className={`w-3.5 h-3.5 ${
-                          msg.status === 'delivered' ? 'text-blue-400' : 'text-gray-600'
-                        }`}
-                      />
-                    </div>
-                  )}
+                    {msg.images?.length > 0 && (
+                      <div className={`flex flex-wrap gap-2 ${msg.content ? 'mt-2' : ''}`}>
+                        {msg.images.map((imgSrc: any, imgIdx: number) => (
+                          <img
+                            key={imgIdx}
+                            src={imgSrc}
+                            alt="attachment"
+                            className="max-w-50 max-h-50 rounded-lg object-cover border border-white/10"
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {isUser && (
+                      <div className="flex items-center justify-end gap-1 mt-2">
+                        <CheckCheck
+                          className={`w-3.5 h-3.5 ${msg.isRead ? 'text-blue-400' : 'text-gray-600'}`}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Blocked Banner or Footer */}
+      {isBlocked ? (
+        <div className="bg-[#111111] border-t border-red-500/20 px-6 py-5">
+          <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
+                <Lock className="w-4 h-4 text-red-400" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-red-400">Conversation Blocked by Admin</p>
+                <p className="text-xs text-gray-500 mt-0.5">Users can no longer send or receive messages in this chat.</p>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Admin Actions Bar */}
-      <div className="bg-[#111111] border-t border-[#D4AF37]/20">
-        <div className="max-w-4xl mx-auto px-6 py-3">
-          <div className="flex items-center gap-3">
             <button
-              onClick={() => alert('User muted in this chat')}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-500/10 text-orange-400 border border-orange-400/20 rounded-lg text-xs font-medium hover:bg-orange-500/20 transition-colors"
+              onClick={handleUnblockConversation}
+              className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 border border-green-400/20 rounded-lg text-sm font-medium hover:bg-green-500/20 transition-colors flex-shrink-0"
             >
-              <Ban className="w-3.5 h-3.5" />
-              Mute User
+              <Unlock className="w-4 h-4" />
+              Unblock Conversation
             </button>
-            <button
-              onClick={() => alert('Chat flagged for review')}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-400/20 rounded-lg text-xs font-medium hover:bg-red-500/20 transition-colors"
-            >
-              <Flag className="w-3.5 h-3.5" />
-              Flag Chat
-            </button>
-            <span className="text-xs text-gray-600 ml-auto">Admin can moderate and send messages</span>
           </div>
         </div>
-      </div>
-
-      {/* Input Area */}
-      <div className="bg-[#111111] border-t border-[#D4AF37]/20">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <form onSubmit={handleSend} className="relative">
-            <textarea
-              rows={2}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend(e);
-                }
-              }}
-              placeholder="Type admin message…"
-              className="w-full bg-[#0A0A0A] border border-[#D4AF37]/20 rounded-xl pl-4 pr-14 py-3 text-white placeholder:text-gray-600 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none resize-none text-sm transition-all"
-            />
-            <button
-              type="submit"
-              disabled={!message.trim()}
-              className="absolute right-2 bottom-2 bg-[#D4AF37] text-black p-2.5 rounded-lg hover:bg-[#F4CF57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-
-          <div className="flex items-center justify-between mt-2 text-xs text-gray-600">
-            <span>Press Enter to send • Shift+Enter for new line</span>
-            <span className="text-[#D4AF37]">✓ Sending as Admin</span>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <ChatFooter conversationId={chatId ?? ""} />
+      )}
     </div>
   );
 }

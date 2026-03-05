@@ -1,71 +1,27 @@
 import {
   AlertTriangle,
   ArrowLeft,
-  Ban,
   Calendar,
   CheckCircle,
-  DollarSign,
-  Flag,
-  MessageSquare
+  DollarSign
 } from 'lucide-react';
-import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useGetSingleRequestsQuery, useRequestApprovalMutation } from '../../../redux/features/request/requestApi';
-import Swal from 'sweetalert2';
-import { toast } from 'sonner';
+import { useGetRequestChatByIdQuery } from '../../../redux/features/chat/chatApi';
+import { useGetSingleRequestsQuery } from '../../../redux/features/request/requestApi';
+import ChatList from './ChatList';
 
 export function AdminRequestDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data:request, isLoading, error } = useGetSingleRequestsQuery(id!, {
+  const { data: request, isLoading, error } = useGetSingleRequestsQuery(id!, {
     skip: !id,
   });
-  const [requestApproval] = useRequestApprovalMutation();
+
+  const { data: chatsData, isLoading: chatsLoading, error: chatsError } = useGetRequestChatByIdQuery(id!, { skip: !id });
 
   const isApprovalView = location.pathname.includes('/approvals/');
-
-  const [requestStatus, setRequestStatus] = useState(request?.status || 'pending');
-
-  const handleApproveRequest = async (status: { status: string }) => {
-  const isApproving = status.status === 'active';
-
-  const result = await Swal.fire({
-    title: isApproving ? 'Approve Listing?' : 'Reject Listing?',
-    text: isApproving
-      ? 'This will publish the stock listing and make it visible to users.'
-      : 'This will reject the listing. Please confirm your decision.',
-    icon: isApproving ? 'success' : 'warning',
-    showCancelButton: true,
-    confirmButtonText: isApproving ? 'Yes, Approve' : 'Yes, Reject',
-    cancelButtonText: 'Cancel',
-    background: '#111111',
-    color: '#ffffff',
-    confirmButtonColor: isApproving ? '#22c55e' : '#ef4444',
-    cancelButtonColor: '#374151',
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    const response = await requestApproval({ id, status }).unwrap();
-    console.log("approve response:", response);
-    
-    if (response?.success) {
-      toast.success(response?.message);
-    }
-  } catch (error: any) {
-    toast.error(error?.data?.message);
-  }
-};
-
-  const handleReject = () => {
-    const reason = prompt('Rejection reason (optional):');
-    // TODO: call reject mutation with reason
-    alert('Request rejected!');
-    navigate('/approvals');
-  };
 
   const formatDate = (isoString: string) => {
     return new Date(isoString).toLocaleDateString('en-ZA', {
@@ -124,11 +80,10 @@ export function AdminRequestDetails() {
             <h1 className="text-2xl md:text-3xl font-serif text-white">{request?.title}</h1>
 
             <span
-              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium border ${
-                isPending
+              className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium border ${isPending
                   ? 'bg-yellow-500/10 text-yellow-400 border-yellow-400/30'
                   : 'bg-green-500/10 text-green-400 border-green-400/30'
-              }`}
+                }`}
             >
               {isPending ? (
                 <AlertTriangle className="w-4 h-4" />
@@ -173,59 +128,8 @@ export function AdminRequestDetails() {
           </p>
         </div>
 
-        {/* Admin Actions */}
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6">
-          <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-4">
-            {isPending ? 'Approval Actions' : 'Manage Request'}
-          </h3>
-
-          {isPending ? (
-            <div className="flex flex-wrap gap-4">
-              <button
-                onClick={() => handleApproveRequest({ status: 'active' })}
-                className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
-              >
-                <CheckCircle className="w-5 h-5" />
-                Approve & Publish
-              </button>
-
-              <button
-                onClick={handleReject}
-                className="flex items-center gap-2 px-6 py-3 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-400/30 rounded-lg font-medium transition-colors"
-              >
-                <Ban className="w-5 h-5" />
-                Reject Request
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-wrap gap-3">
-              <button className="px-4 py-2 bg-blue-600/20 text-blue-300 rounded-lg text-sm hover:bg-blue-600/30">
-                Mark as Open
-              </button>
-              <button className="px-4 py-2 bg-green-600/20 text-green-300 rounded-lg text-sm hover:bg-green-600/30">
-                Mark as Active
-              </button>
-              <button className="px-4 py-2 bg-gray-600/20 text-gray-300 rounded-lg text-sm hover:bg-gray-600/30">
-                Close Request
-              </button>
-              <button className="ml-auto px-4 py-2 bg-orange-600/20 text-orange-300 rounded-lg text-sm hover:bg-orange-600/30">
-                <Flag className="w-4 h-4 inline mr-1" />
-                Flag Content
-              </button>
-            </div>
-          )}
-        </div>
-
         {/* Placeholder for Chats (to be implemented later) */}
-        {!isPending && (
-          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6 text-center text-gray-500 py-12">
-            <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p className="text-lg mb-2">Individual Conversations</p>
-            <p className="text-sm">
-              Chat functionality will be available once users start messaging on this request?.
-            </p>
-          </div>
-        )}
+        {!isPending && <ChatList chatsData={chatsData} />}
       </div>
     </div>
   );

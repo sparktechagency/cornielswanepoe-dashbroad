@@ -18,7 +18,7 @@ export const baseApi = createApi({
 
   }),
   endpoints: () => ({}),
-  tagTypes: ["user", "notifications", "admin", "category", "slider", "faqs", "withdrawal", "planner", "stock"],
+  tagTypes: ["user", "notifications", "admin", "category", "slider", "faqs", "withdrawal", "planner", "stock", "request"],
 });
 
 export const imageUrl = "http://10.10.7.48:5000";

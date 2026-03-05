@@ -4,13 +4,17 @@ import { baseApi } from "../../base/baseAPI";
 
 export const stockApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
+        getRequests: builder.query({
+            query: () => "/requests",
+            providesTags: ["request"],
+        }),
         getPendingRequests: builder.query({
             query: () => "/requests/pending",
-            providesTags: ["stock"],
+            providesTags: ["request"],
         }),
         getSingleRequests: builder.query({
             query: (id) => `/requests/single/${id}`,
-            providesTags: ["stock"],
+            providesTags: ["request"],
             transformResponse: (response: { data: any }) => response.data,
         }),
         requestApproval: builder.mutation({
@@ -19,10 +23,10 @@ export const stockApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 body: data,
             }),
-            invalidatesTags: ["stock"],
+            invalidatesTags: ["request"],
         }),
         
     }),
 });
 
-export const { useGetPendingRequestsQuery, useGetSingleRequestsQuery, useRequestApprovalMutation } = stockApi;
+export const { useGetRequestsQuery, useGetPendingRequestsQuery, useGetSingleRequestsQuery, useRequestApprovalMutation } = stockApi;

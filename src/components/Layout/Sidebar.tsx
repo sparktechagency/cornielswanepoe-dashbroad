@@ -71,7 +71,7 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 p-4 overflow-y-auto">
-        <div className="space-y-1">
+        <div className="space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);

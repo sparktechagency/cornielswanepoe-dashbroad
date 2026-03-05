@@ -192,7 +192,6 @@ export default function AdminStockDetails() {
 
   try {
     const response = await stockApproval({ id, status }).unwrap();
-    console.log("approve response:", response);
     
     if (response?.success) {
       toast.success(response?.message);
