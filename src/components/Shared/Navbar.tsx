@@ -15,16 +15,21 @@ import {
   Settings,
   User
 } from 'lucide-react';
+import { useGetProfileQuery } from "../../redux/features/user/userApi";
+import { imageUrl } from "../../redux/base/baseAPI";
 const Navbar = () => {  
   const navigate = useNavigate();  
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications] = useState(5);
-
+  const {data: profileData} = useGetProfileQuery({});
   const handleLogout = () => {
     Cookies.remove("accessToken");
     navigate("/login");
   };
+
+  console.log("profileData", profileData);
+  
 
   return (
     <header className="sticky top-0 z-30 bg-[#0A0A0A] border-b border-[#D4AF37]/20">
@@ -194,12 +199,10 @@ const Navbar = () => {
               onClick={() => setShowProfileMenu(!showProfileMenu)}
               className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1A1A1A] transition-colors"
             >
-              <div className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center">
-                <span className="text-black font-bold text-sm">AD</span>
-              </div>
+              <img src={profileData?.image ? imageUrl + profileData.image : "/placeholder.png"} alt="Profile" className="w-10 h-10 rounded-full object-cover"  />
               <div className="hidden md:block text-left">
-                <p className="text-white text-sm font-medium">Admin User</p>
-                <p className="text-gray-400 text-xs">Super Admin</p>
+                <p className="text-white text-sm font-medium">{profileData?.name}</p>
+                <p className="text-gray-400 text-xs">{profileData?.email}</p>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-400" />
             </button>
@@ -213,8 +216,8 @@ const Navbar = () => {
                 />
                 <div className="absolute right-0 mt-2 w-56 bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg shadow-xl z-20 overflow-hidden">
                   <div className="p-4 border-b border-[#D4AF37]/20">
-                    <p className="text-white font-medium text-sm">Admin User</p>
-                    <p className="text-gray-400 text-xs">admin@investorshub.com</p>
+                    <p className="text-white font-medium text-sm">{profileData?.name}</p>
+                    <p className="text-gray-400 text-xs">{profileData?.email}</p>
                   </div>
 
                   <Link

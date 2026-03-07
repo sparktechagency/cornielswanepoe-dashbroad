@@ -1,12 +1,13 @@
 
 import React, { useState } from "react";
 
-import { ArrowLeft, Plus, X, ImageIcon } from "lucide-react";
+import { ImageIcon, Plus, X } from "lucide-react";
 
 import { toast } from "sonner";
 import { useCreateStockMutation } from "../../../redux/features/stock/stockApi";
-import { Label } from "../../ui/label";
 import { Button } from "../../ui/button";
+import { Label } from "../../ui/label";
+import { Switch } from "../../ui/switch";
 
 // const CATEGORIES = [
 //   "Residential",
@@ -148,19 +149,19 @@ export default function CreateNewStrockModal({ open, onClose }: { open: boolean,
                         <div className="space-y-6">
                             {/* Category */}
                             {/* <div>
-                <label className="block text-sm text-gray-400 mb-2">Property Category *</label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  required
-                  className="w-full bg-[#0A0A0A] border border-primary/40 rounded-lg px-4 py-3 text-white focus:border-primary outline-none"
-                >
-                  {CATEGORIES.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-              </div> */}
+                            <label className="block text-sm text-gray-400 mb-2">Property Category *</label>
+                            <select
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-[#0A0A0A] border border-primary/40 rounded-lg px-4 py-3 text-white focus:border-primary outline-none"
+                            >
+                            {CATEGORIES.map(cat => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                            </select>
+                            </div> */}
 
                             {/* Title */}
                             <div>
@@ -335,7 +336,7 @@ export default function CreateNewStrockModal({ open, onClose }: { open: boolean,
                             <Switch
                                 id="blur-image"
                                 checked={isBlur}
-                                onCheckedChange={(checked:any) => setIsBlur(checked)}
+                                onCheckedChange={(checked: any) => setIsBlur(checked)}
                             />
                             <Label htmlFor="blur-image" className="text-gray-200 text-sm">
                                 Blur Image
@@ -345,7 +346,7 @@ export default function CreateNewStrockModal({ open, onClose }: { open: boolean,
 
                     {/* Submit Buttons */}
                     <div className="flex items-center gap-4 pt-6 border-t border-primary/20">
-                        <Button type="submit" size="lg"  className="flex-1 bg-primary! sm:flex-none">
+                        <Button type="submit" size="lg" className="flex-1 py-6!  text-md text-slate-900! sm:flex-none">
                             Publish Listing
                         </Button>
                         <button

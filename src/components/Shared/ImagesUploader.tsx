@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react"
 import { Badge } from "..//ui/badge"
 
 import { cn } from "../../lib/utils"
-import { imageUrl } from "../../redux/base/baseAPI"
+
 import { Button } from "../ui/button"
+import { imageUrl } from "../../redux/base/baseAPI"
 
 interface ImagesUploadProps {
   files: File[]
@@ -76,7 +77,7 @@ export default function ImagesUpload({
             className="relative rounded-lg overflow-hidden border"
           >
             <img
-              src={`${imageUrl}${img}`}
+              src={`${imageUrl + img}`}
               alt="existing"
               className="h-full w-full object-cover"
             />

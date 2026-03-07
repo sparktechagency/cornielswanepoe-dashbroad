@@ -17,7 +17,7 @@ const Requests = () => {
           Investment Requests
         </h1>
 
-       {activeTab === "my-requests" &&  <Button onClick={()=>setOpenModal(true)} className="flex items-center gap-2">
+        {activeTab === "my-requests" && <Button onClick={() => setOpenModal(true)} className="flex items-center gap-2">
           <Plus className="w-4 h-4" />
           Add Request
         </Button>}

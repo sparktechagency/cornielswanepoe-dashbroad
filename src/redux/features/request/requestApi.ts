@@ -8,6 +8,21 @@ export const stockApi = baseApi.injectEndpoints({
             query: () => "/requests",
             providesTags: ["request"],
         }),
+        getMyRequests: builder.query({
+            query: () => ({
+                url: `/requests/my-listing${location.search}`,
+                method: "GET",
+            }),
+            providesTags: ["request"],            
+        }),
+         updateRequest: builder.mutation({
+            query: (data) => ({
+                url: `/requests/update/${data?.id}`,
+                method: "PATCH",
+                body: data,               
+            }),
+            invalidatesTags: ["request"],
+        }),
          createRequest: builder.mutation({
             query: (data) => ({
                 url: "/requests/create",
@@ -37,4 +52,4 @@ export const stockApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetRequestsQuery, useCreateRequestMutation, useGetPendingRequestsQuery, useGetSingleRequestsQuery, useRequestApprovalMutation } = stockApi;
+export const { useGetRequestsQuery, useGetMyRequestsQuery, useUpdateRequestMutation, useCreateRequestMutation, useGetPendingRequestsQuery, useGetSingleRequestsQuery, useRequestApprovalMutation } = stockApi;

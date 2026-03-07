@@ -8,6 +8,7 @@ import {
     Eye,
     MapPin,
     MessageSquare,
+    Pen,
     Search,
     Send,
     Trash2,
@@ -18,11 +19,10 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { imageUrl } from '../../../redux/base/baseAPI';
-import { useGetRequestsQuery } from '../../../redux/features/request/requestApi';
+import { useGetMyRequestsQuery, useGetRequestsQuery } from '../../../redux/features/request/requestApi';
 import { Button } from '../../ui/button';
 
 type Category = 'Vacant Land' | 'Farms' | 'Hotels' | 'Investment Portfolios' | 'all';
-type RequestStatus = 'Open' | 'Active' | 'Closed' | 'all';
 type ApprovalStatus = 'pending' | 'approved' | 'rejected';
 
 interface Message {
@@ -374,7 +374,7 @@ export default function MyRequests() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [requestToDelete, setRequestToDelete] = useState<Conversation | null>(null);
 
-    const { data: requestsData, isLoading, error } = useGetRequestsQuery({});
+    const { data: requestsData, isLoading, error } = useGetMyRequestsQuery({});
 
     const getUrgencyColor = (urgency: string) => {
         switch (urgency) {
@@ -504,6 +504,17 @@ export default function MyRequests() {
                                         >
                                             <Eye className="w-3 h-3" />
                                             View
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            className="text-xs"
+                                            onClick={(e) => {
+                                                e?.stopPropagation();
+                                                navigate(`/requests/${conv._id}`);
+                                            }}
+                                        >
+                                            <Pen className="w-3 h-3" />
+                                            Edit
                                         </Button>
                                         <Button
                                             size="sm"

@@ -10,6 +10,7 @@ const RequestApproval = () => {
   const navigate = useNavigate();
   const { data: pendingStock, isLoading, error } = useGetPendingRequestsQuery({});
 
+  console.log("pendingStock", pendingStock);
   
   const [requestApproval] = useRequestApprovalMutation();
 

@@ -4,14 +4,37 @@ import { baseApi } from "../../base/baseAPI";
 
 export const stockApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getStocks: builder.query({
+      query: () => ({
+        url: `/stocks${location.search}`,
+        method: "GET",
+      }),
+      providesTags: ["stock"],
+    }),
+    getMyStocks: builder.query({
+      query: () => ({
+        url: `/stocks/my-stocks${location.search}`,
+        method: "GET",
+      }),
+      providesTags: ["stock"],
+    }),
     createStock: builder.mutation({
       query: (data) => ({
         url: "/stocks/create",
         method: "POST",
-        body: data,       
+        body: data,
       }),
       invalidatesTags: ["stock"],
     }),
+    updateStock: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `/stocks/update/${id}`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["stock"],
+    }),
+
     getPendingStocks: builder.query({
       query: () => "/stocks/pending",
       providesTags: ["stock"],
@@ -29,7 +52,14 @@ export const stockApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["stock"],
     }),
+    deleteStock: builder.mutation({
+      query: (id: string) => ({
+        url: `/stocks/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["stock"],
+    }),
   }),
 });
 
-export const { useCreateStockMutation, useGetPendingStocksQuery, useGetSingleStocksQuery, useStockApprovalMutation } = stockApi;
+export const { useGetStocksQuery, useCreateStockMutation, useGetMyStocksQuery, useUpdateStockMutation, useDeleteStockMutation, useGetPendingStocksQuery, useGetSingleStocksQuery, useStockApprovalMutation } = stockApi;

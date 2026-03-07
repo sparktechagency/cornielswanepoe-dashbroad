@@ -377,6 +377,9 @@ export default function AllRequests() {
 
     const { data: requestsData, isLoading, error } = useGetRequestsQuery({});
 
+
+    console.log("requestsData", requestsData);
+    
     const getUrgencyColor = (urgency: string) => {
         switch (urgency) {
             case 'high': return 'text-red-400';

@@ -1,10 +1,11 @@
 import { Building2, Plus, Layers } from "lucide-react";
 import { useState } from "react";
 
+
+import { Button } from "../../ui/button";
 import AllStocks from "./AllStocks";
 import MyStocks from "./MyStocks";
-import { Button } from "../../ui/button";
-import NewStockModal from "./NewStockModal";
+import CreateNewStrockModal from "./NewStrockModal";
 
 const Stocks = () => {
   const [activeTab, setActiveTab] = useState("all-stocks");
@@ -19,10 +20,8 @@ const Stocks = () => {
         </h1>
 
         {activeTab === "my-stocks" && (
-          <Button
-            onClick={() => setOpenModal(true)}
-            className="flex items-center gap-2"
-          >
+          <Button size="lg" onClick={() => setOpenModal(true)}
+            className="flex items-center gap-2 text-black!">
             <Plus className="w-4 h-4" />
             Add Stock
           </Button>
@@ -30,14 +29,13 @@ const Stocks = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 mb-6 border-b border-[#D4AF37]/10">
+      <div className="flex items-center gap-2 mb-6 border-b border-primary/10">
         <button
           onClick={() => setActiveTab("all-stocks")}
-          className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${
-            activeTab === "all-stocks"
-              ? "bg-[#D4AF37] text-black"
-              : "bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]"
-          }`}
+          className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${activeTab === "all-stocks"
+            ? "bg-primary text-black"
+            : "bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]"
+            }`}
         >
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4" />
@@ -47,11 +45,10 @@ const Stocks = () => {
 
         <button
           onClick={() => setActiveTab("my-stocks")}
-          className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${
-            activeTab === "my-stocks"
-              ? "bg-[#D4AF37] text-black"
-              : "bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]"
-          }`}
+          className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${activeTab === "my-stocks"
+            ? "bg-primary text-black"
+            : "bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]"
+            }`}
         >
           <div className="flex items-center gap-2">
             <Building2 className="w-4 h-4" />
@@ -64,7 +61,7 @@ const Stocks = () => {
       {activeTab === "all-stocks" ? <AllStocks /> : <MyStocks />}
 
       {/* Modal */}
-      <NewStockModal open={openModal} onClose={() => setOpenModal(false)} />
+      <CreateNewStrockModal open={openModal} onClose={() => setOpenModal(false)} />
     </div>
   );
 };

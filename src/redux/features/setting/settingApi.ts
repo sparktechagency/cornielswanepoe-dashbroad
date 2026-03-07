@@ -24,10 +24,10 @@ const settingApi = baseApi.injectEndpoints({
       invalidatesTags: ["faqs"]
     }),
     deleteFAQ: builder.mutation({
-      query: (id)=> {
+      query: (id) => {
         return {
           url: `/faqs/${id}`,
-          method: "DELETE",          
+          method: "DELETE",
         }
       }
     }),
@@ -37,28 +37,36 @@ const settingApi = baseApi.injectEndpoints({
     getAbout: builder.query({
       query: () => "/settings?key=aboutUs",
       // transformResponse: (res: { data: any }) => res?.data,
-    }),
-    addAbout: builder.mutation({
-      query: (data) => ({
-          url: "/settings",
-          method: "POST",
-          body: data,
-        }),
-    }),
-    getPrivacyPolicy: builder.query({
-      query: () => "/disclaimer/privacy-policy",
-      transformResponse: (res: { data: any }) => res?.data,
+       providesTags: ["cms"]
     }),
     getTermsCondition: builder.query({
-      query: () => "/rules/TERMS",      
+      query: () => "/settings?key=termsOfService",
       transformResponse: (res: { data: any }) => res?.data,
+      providesTags: ["cms"]
     }),
+
+    getPrivacyPolicy: builder.query({
+      query: () => "/settings?key=privacyPolicy",
+      transformResponse: (res: { data: any }) => res?.data,
+        providesTags: ["cms"]
+    }),
+
+    addAbout: builder.mutation({
+      query: (data) => ({
+        url: "/settings",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+
     addDisclaimer: builder.mutation({
       query: (data) => ({
-          url: "/settings",
-          method: "PUT",
-          body: data,
-        }),
+        url: "/settings",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["cms"]
     }),
 
     addSupport: builder.mutation({
@@ -79,12 +87,12 @@ const settingApi = baseApi.injectEndpoints({
       query: () => "/platform/get-platform-fees",
       transformResponse: (res: { data: any }) => res?.data,
     }),
-    updateCommission: builder.mutation({      
-        query: (data) => ({
-          url: `/platform/update-platform-fee/${data?.id}`,
-          method: "PUT",
-          body: data,
-        }),
+    updateCommission: builder.mutation({
+      query: (data) => ({
+        url: `/platform/update-platform-fee/${data?.id}`,
+        method: "PUT",
+        body: data,
+      }),
     }),
 
     // ---------------- Commission Manage  End---------------
