@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetPendingStocksQuery } from '../../../redux/features/stock/stockApi';
+import { useGetPendingStocksQuery, useStockApprovalMutation } from '../../../redux/features/stock/stockApi';
 import {
   Building2,
   Calendar,
@@ -13,9 +13,14 @@ import {
 import Loader from '../../Shared/Loader';
 import { Button } from '../../ui/button';
 import { imageUrl } from '../../../redux/base/baseAPI';
+import Swal from 'sweetalert2';
+import { toast } from 'sonner';
 
 export default function StockApproval() {
   const { data: pendingStock, isLoading, error } = useGetPendingStocksQuery({});
+  const [stockApproval] = useStockApprovalMutation();
+
+
   const navigate = useNavigate();
 
   const formatDate = (isoString: string) =>
@@ -56,6 +61,36 @@ export default function StockApproval() {
     );
   }
 
+  const handleApprove = async (id: string, status: string) => {
+  const isApprove = status === "active";
+
+  const result = await Swal.fire({
+    title: isApprove ? "Approve Listing?" : "Reject Listing?",
+    text: isApprove
+      ? "This will publish the stock listing."
+      : "This will reject the stock listing.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: isApprove ? "Yes, Approve" : "Yes, Reject",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      const res = await stockApproval({
+        id,
+        status,
+      })?.unwrap();
+      
+      if(res?.success) {
+        toast.success(res?.message);
+      }
+
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
+  }
+};
+
   /* -------------------- List -------------------- */
   return (
     <div className="space-y-4">
@@ -76,17 +111,8 @@ export default function StockApproval() {
                 <img
                   src={imageUrl + displayImage}
                   alt={item.title}
-                  className={`w-full h-full object-cover rounded-lg ${
-                    item.isBlur ? 'blur-sm' : ''
-                  }`}
-                />
-                {item.isBlur && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
-                    <span className="text-xs text-white/80 font-medium px-2 py-1 bg-black/50 rounded">
-                      Blurred – Awaiting Approval
-                    </span>
-                  </div>
-                )}
+                  className={`w-full h-full object-cover rounded-lg `}
+                />                
               </div>
 
               {/* Content */}
@@ -145,12 +171,12 @@ export default function StockApproval() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3 flex-wrap">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 transition-all">
+                  <button onClick={()=>handleApprove(item?._id, "active")} className="flex items-center gap-2 px-4 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 transition-all">
                     <CheckCircle className="w-4 h-4" />
                     <span className="font-medium">Approve</span>
                   </button>
 
-                  <button className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 transition-all">
+                  <button onClick={() => handleApprove(item?._id, "cancelled")} className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 transition-all">
                     <XCircle className="w-4 h-4" />
                     <span className="font-medium">Reject</span>
                   </button>

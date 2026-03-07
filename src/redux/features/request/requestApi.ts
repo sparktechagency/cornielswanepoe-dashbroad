@@ -8,6 +8,14 @@ export const stockApi = baseApi.injectEndpoints({
             query: () => "/requests",
             providesTags: ["request"],
         }),
+         createRequest: builder.mutation({
+            query: (data) => ({
+                url: "/requests/create",
+                method: "POST",
+                body: data,                
+            }),
+            invalidatesTags: ["request"],
+        }),
         getPendingRequests: builder.query({
             query: () => "/requests/pending",
             providesTags: ["request"],
@@ -29,4 +37,4 @@ export const stockApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetRequestsQuery, useGetPendingRequestsQuery, useGetSingleRequestsQuery, useRequestApprovalMutation } = stockApi;
+export const { useGetRequestsQuery, useCreateRequestMutation, useGetPendingRequestsQuery, useGetSingleRequestsQuery, useRequestApprovalMutation } = stockApi;

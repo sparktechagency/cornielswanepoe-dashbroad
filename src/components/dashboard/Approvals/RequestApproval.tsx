@@ -1,8 +1,7 @@
-import React from 'react'
-import { useGetPendingRequestsQuery } from '../../../redux/features/request/requestApi';
-import Loader from '../../Shared/Loader';
 import { Building2, Calendar, CheckCircle, DollarSign, Eye, User, XCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
+import { useGetPendingRequestsQuery, useRequestApprovalMutation } from '../../../redux/features/request/requestApi';
+import Loader from '../../Shared/Loader';
 import { Button } from '../../ui/button';
 import Swal from 'sweetalert2';
 import { toast } from 'sonner';
@@ -11,55 +10,8 @@ const RequestApproval = () => {
   const navigate = useNavigate();
   const { data: pendingStock, isLoading, error } = useGetPendingRequestsQuery({});
 
-  const pendingRequests = pendingStock?.data ?? [];
-
-  const handleApproveRequest = async (id: string) => {
-    const result = await Swal.fire({
-      title: 'Approve Request?',
-      text: 'This will approve the request and make it visible to users.',
-      icon: 'success',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Approve',
-      cancelButtonText: 'Cancel',
-      background: '#111111',
-      color: '#ffffff',
-      confirmButtonColor: '#22c55e',
-      cancelButtonColor: '#374151',
-    });
-
-    if (!result.isConfirmed) return;
-
-    try {
-      // await approveRequest({ id }).unwrap();
-      toast.success('Request approved successfully');
-    } catch (error: any) {
-      toast.error(error?.data?.message ?? 'Failed to approve request');
-    }
-  };
-
-  const handleRejectRequest = async (id: string) => {
-    const result = await Swal.fire({
-      title: 'Reject Request?',
-      text: 'This will reject the request permanently.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Reject',
-      cancelButtonText: 'Cancel',
-      background: '#111111',
-      color: '#ffffff',
-      confirmButtonColor: '#ef4444',
-      cancelButtonColor: '#374151',
-    });
-
-    if (!result.isConfirmed) return;
-
-    try {
-      // await rejectRequest({ id }).unwrap();
-      toast.success('Request rejected');
-    } catch (error: any) {
-      toast.error(error?.data?.message ?? 'Failed to reject request');
-    }
-  };
+  
+  const [requestApproval] = useRequestApprovalMutation();
 
   /* ── Loading ── */
   if (isLoading) {
@@ -80,7 +32,7 @@ const RequestApproval = () => {
   }
 
   /* ── Empty ── */
-  if (!pendingRequests.length) {
+  if (!pendingStock?.data?.length) {
     return (
       <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-12 text-center">
         <Building2 className="w-12 h-12 text-gray-600 mx-auto mb-4" />
@@ -90,9 +42,37 @@ const RequestApproval = () => {
     );
   }
 
+  const handleRequestApprove = async (id: string, status: string) => {
+  const isApprove = status === "approved";
+
+  const result = await Swal.fire({
+    title: isApprove ? "Approve Request?" : "Reject Request?",
+    text: isApprove
+      ? "This will approve the request."
+      : "This will reject the request.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: isApprove ? "Yes, Approve" : "Yes, Reject",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      const res = await requestApproval({
+        id,
+        status,
+      }).unwrap();
+
+      if(res?.success) {
+        toast.success(res?.message);
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
+  }
+};
   return (
     <div className="space-y-4">
-      {pendingRequests.map((item: any) => (
+      {pendingStock?.data?.map((item: any) => (
         <div
           key={item._id}
           className="bg-[#111111] border border-orange-400/30 rounded-lg p-6 hover:border-orange-400 transition-all"
@@ -157,14 +137,14 @@ const RequestApproval = () => {
               {/* Actions */}
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => handleApproveRequest(item._id)}
+                  onClick={() => handleRequestApprove(item._id, "active")}
                   className="flex items-center gap-2 px-4 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 transition-all group"
                 >
                   <CheckCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
                   <span className="font-medium">Approve</span>
                 </button>
                 <button
-                  onClick={() => handleRejectRequest(item._id)}
+                  onClick={() => handleRequestApprove(item._id, "cancelled")}
                   className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 transition-all group"
                 >
                   <XCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />

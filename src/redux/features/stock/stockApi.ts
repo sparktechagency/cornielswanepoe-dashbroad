@@ -4,6 +4,14 @@ import { baseApi } from "../../base/baseAPI";
 
 export const stockApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createStock: builder.mutation({
+      query: (data) => ({
+        url: "/stocks/create",
+        method: "POST",
+        body: data,       
+      }),
+      invalidatesTags: ["stock"],
+    }),
     getPendingStocks: builder.query({
       query: () => "/stocks/pending",
       providesTags: ["stock"],
@@ -24,4 +32,4 @@ export const stockApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetPendingStocksQuery, useGetSingleStocksQuery, useStockApprovalMutation } = stockApi;
+export const { useCreateStockMutation, useGetPendingStocksQuery, useGetSingleStocksQuery, useStockApprovalMutation } = stockApi;

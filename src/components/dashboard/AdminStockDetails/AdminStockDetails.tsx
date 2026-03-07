@@ -243,11 +243,7 @@ return (
               </>
             ) : (
               // Edit/Delete buttons for published items
-              <>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Edit3 className="w-4 h-4" />
-                  Edit Property
-                </Button>
+              <>                
                 <Button variant="outline" className="flex items-center gap-2 text-red-400 border-red-400/20 hover:border-red-400">
                   <Trash2 className="w-4 h-4" />
                   Delete
