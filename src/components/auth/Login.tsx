@@ -62,7 +62,7 @@ export default function Login() {
                     <p className="text-gray-400">Sign in to your account</p>
                 </div>
 
-                <div className="bg-[#111111] p-8 rounded-xl border border-[#D4AF37]/20">
+                <div className="bg-[#111111] p-8 rounded-xl border border-primary/20">
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -74,7 +74,7 @@ export default function Login() {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-colors"
+                                    className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                                     placeholder="you@example.com"
                                     required
                                 />
@@ -93,7 +93,7 @@ export default function Login() {
                                     type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-12 pr-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-colors"
+                                    className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-12 pr-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                                     placeholder="••••••••"
                                     required
                                 />
@@ -101,7 +101,7 @@ export default function Login() {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#D4AF37] transition"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary transition"
                                 >
                                     {showPassword ? (
                                         <EyeOff className="w-5 h-5" />
@@ -114,10 +114,10 @@ export default function Login() {
 
                         <div className="flex items-center justify-between text-sm text-white">
                             <label className="flex items-center text-gray-400">
-                                <input onChange={(e) => setAcceptTerms(e.target.checked)} type="checkbox" className="mr-2 accent-[#D4AF37]" />
+                                <input onChange={(e) => setAcceptTerms(e.target.checked)} type="checkbox" className="mr-2 accent-primary" />
                                 Remember me
                             </label>
-                            <Link to="/forgot-password" className="text-[#D4AF37] hover:text-[#E4C77D]">
+                            <Link to="/forgot-password" className="text-primary hover:text-[#E4C77D]">
                                 Forgot password?
                             </Link>
                         </div>
@@ -130,7 +130,7 @@ export default function Login() {
 
                     <div className="mt-6 text-center text-sm text-gray-400">
                         Don't have an account?{' '}
-                        <Link to="/signup" className="text-[#D4AF37] hover:text-[#E4C77D] font-medium">
+                        <Link to="/signup" className="text-primary hover:text-[#E4C77D] font-medium">
                             Sign up
                         </Link>
                     </div>

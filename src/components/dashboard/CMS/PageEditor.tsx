@@ -39,9 +39,9 @@ export const PageEditor = ({
 
     return (
         <div className="lg:col-span-3">
-            <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg">
+            <div className="bg-[#111111] border border-primary/20 rounded-lg">
                 {/* Editor Header */}
-                <div className="border-b border-[#D4AF37]/20 p-6">
+                <div className="border-b border-primary/20 p-6">
                     <div className="flex items-center justify-between mb-4">
                         <div>
                             <h2 className="text-2xl font-serif text-white mb-1">{currentPage?.title}</h2>
@@ -88,7 +88,7 @@ export const PageEditor = ({
 
                     {/* Editor Toolbar */}
                     {editMode && (
-                        <div className="flex items-center gap-2 p-3 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                        <div className="flex items-center gap-2 p-3 bg-[#1A1A1A] rounded-lg border border-primary/10">
                             {[
                                 { label: <strong>B</strong>, command: "bold" },
                                 { label: <em>I</em>, command: "italic" },
@@ -106,7 +106,7 @@ export const PageEditor = ({
                                     {btn.label}
                                 </button>
                             ))}
-                            <div className="w-px h-6 bg-[#D4AF37]/20 mx-2" />
+                            <div className="w-px h-6 bg-primary/20 mx-2" />
                             {["Link", "Image", "List"].map((label) => (
                                 <button
                                     key={label}
@@ -127,7 +127,7 @@ export const PageEditor = ({
                             contentEditable
                             suppressContentEditableWarning
                             onInput={(e) => onContentChange(e.currentTarget.innerHTML)}
-                            className="w-full min-h-[600px] bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg p-4 text-white text-sm focus:outline-none focus:border-[#D4AF37]"
+                            className="w-full min-h-[600px] bg-[#1A1A1A] border border-primary/20 rounded-lg p-4 text-white text-sm focus:outline-none focus:border-primary"
                         />
                     ) : (
                         <div
@@ -139,7 +139,7 @@ export const PageEditor = ({
                 </div>
 
                 {/* Editor Footer */}
-                <div className="border-t border-[#D4AF37]/20 p-4 bg-[#0A0A0A]">
+                <div className="border-t border-primary/20 p-4 bg-[#0A0A0A]">
                     <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center gap-4 text-gray-400">
                             <span>{currentPage?.content?.length} characters</span>

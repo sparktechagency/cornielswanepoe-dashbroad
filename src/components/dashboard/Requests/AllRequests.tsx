@@ -150,7 +150,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                     Back to Requests Board
                 </button>
 
-                <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+                <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
                     <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
@@ -166,7 +166,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <div className="flex items-center gap-2 text-sm">
-                                    <DollarSign className="w-4 h-4 text-[#D4AF37]" />
+                                    <DollarSign className="w-4 h-4 text-primary" />
                                     <span className="text-white font-medium">{conversation.budget}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-sm">
@@ -184,7 +184,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                     </div>
 
                     {/* Original Poster Info (Admin View) */}
-                    <div className="bg-[#1A1A1A] border border-[#D4AF37]/10 rounded-lg p-3">
+                    <div className="bg-[#1A1A1A] border border-primary/10 rounded-lg p-3">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-xs text-gray-500 mb-1">Posted by (Admin View):</p>
@@ -195,7 +195,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                             </div>
                             <div className="text-right">
                                 <p className="text-xs text-gray-500 mb-1">Users see:</p>
-                                <p className="text-[#D4AF37] font-medium">{conversation.anonymousId}</p>
+                                <p className="text-primary font-medium">{conversation.anonymousId}</p>
                             </div>
                         </div>
                     </div>
@@ -203,8 +203,8 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
             </div>
 
             {/* Chat Messages */}
-            <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg overflow-hidden">
-                <div className="p-6 border-b border-[#D4AF37]/20">
+            <div className="bg-[#111111] border border-primary/20 rounded-lg overflow-hidden">
+                <div className="p-6 border-b border-primary/20">
                     <h3 className="text-lg font-serif text-white">Conversation Thread</h3>
                 </div>
 
@@ -223,7 +223,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                                                 e.stopPropagation();
                                                 handleUserClick(message.userId);
                                             }}
-                                            className="text-xs text-gray-400 hover:text-[#D4AF37] hover:underline transition-colors cursor-pointer font-medium"
+                                            className="text-xs text-gray-400 hover:text-primary hover:underline transition-colors cursor-pointer font-medium"
                                         >
                                             {message.userName}
                                         </button>
@@ -235,8 +235,8 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
 
                                     {/* Message Bubble */}
                                     <div className={`rounded-2xl px-4 py-3 ${isOriginalPoster
-                                        ? 'bg-[#D4AF37] text-black'
-                                        : 'bg-[#1A1A1A] text-white border border-[#D4AF37]/20'
+                                        ? 'bg-primary text-black'
+                                        : 'bg-[#1A1A1A] text-white border border-primary/20'
                                         }`}>
                                         <p className="text-sm leading-relaxed">{message.message}</p>
                                     </div>
@@ -258,11 +258,11 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
 
                 {/* Admin Message Input */}
                 {conversation.status !== 'Closed' && (
-                    <div className="p-6 border-t border-[#D4AF37]/20 bg-[#1A1A1A]">
+                    <div className="p-6 border-t border-primary/20 bg-[#1A1A1A]">
                         <div className="bg-blue-400/10 border border-blue-400/20 rounded-lg p-3 mb-4">
                             <p className="text-blue-400 text-xs font-medium mb-1">💡 Admin Message Mode</p>
                             <p className="text-gray-400 text-xs">
-                                Your message will show as <strong className="text-[#D4AF37]">"Investors Hub Admin"</strong> to all users
+                                Your message will show as <strong className="text-primary">"Investors Hub Admin"</strong> to all users
                             </p>
                         </div>
 
@@ -271,13 +271,13 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                                 value={adminMessage}
                                 onChange={(e) => setAdminMessage(e.target.value)}
                                 placeholder="Type your message to participants... (e.g., 'Thank you for the discussion. I will facilitate a connection between interested parties.')"
-                                className="flex-1 bg-[#111111] border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-colors resize-none"
+                                className="flex-1 bg-[#111111] border border-primary/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors resize-none"
                                 rows={3}
                             />
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!adminMessage.trim()}
-                                className="px-6 bg-[#D4AF37] text-black rounded-lg hover:bg-[#D4AF37]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                className="px-6 bg-primary text-black rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                             >
                                 <Send className="w-4 h-4" />
                                 Send
@@ -287,7 +287,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                 )}
 
                 {conversation.status === 'Closed' && (
-                    <div className="p-6 border-t border-[#D4AF37]/20 bg-red-400/5">
+                    <div className="p-6 border-t border-primary/20 bg-red-400/5">
                         <div className="flex items-center justify-center gap-2 text-red-400">
                             <XCircle className="w-5 h-5" />
                             <p className="font-medium">This conversation has been closed. No new messages allowed.</p>
@@ -296,7 +296,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
                 )}
 
                 {/* Admin Actions */}
-                <div className="p-6 border-t border-[#D4AF37]/20">
+                <div className="p-6 border-t border-primary/20">
                     {/* Action Buttons */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <Button
@@ -339,7 +339,7 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
             {/* Close Confirmation Modal */}
             {showCloseConfirm && (
                 <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-                    <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6 max-w-md w-full">
+                    <div className="bg-[#111111] border border-primary/20 rounded-lg p-6 max-w-md w-full">
                         <h3 className="text-xl font-serif text-white mb-4">Close Conversation?</h3>
                         <p className="text-gray-400 mb-6">
                             This will close the conversation and prevent users from sending new messages.
@@ -390,7 +390,7 @@ export default function AllRequests() {
     };
     return (
         <div className="">       
-            <div className="bg-[#111111] border border-[#D4AF37]/20 flex items-center gap-5 rounded-lg  mb-6">
+            <div className="bg-[#111111] border border-primary/20 flex items-center gap-5 rounded-lg  mb-6">
                 <div className="relative w-full">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                     <input
@@ -398,7 +398,7 @@ export default function AllRequests() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search conversations..."
-                        className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-colors"
+                        className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                     />
                 </div>
                 <div className="flex items-center gap-3">
@@ -406,7 +406,7 @@ export default function AllRequests() {
                         <select
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="appearance-none bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-4 py-3.5 pr-10 text-white text-sm font-medium focus:outline-none focus:border-[#D4AF37] transition-colors cursor-pointer hover:border-[#D4AF37]/40"
+                            className="appearance-none bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3.5 pr-10 text-white text-sm font-medium focus:outline-none focus:border-primary transition-colors cursor-pointer hover:border-primary/40"
                         >
                             <option value="">All Categories</option>
                             <option value="real_estate">🏢 Real Estate</option>
@@ -440,12 +440,12 @@ export default function AllRequests() {
                     <div
                         key={conv._id}
                         onClick={() => navigate(`/requests/${conv._id}`)}
-                        className={`bg-[#111111] border rounded-lg p-4 hover:border-[#D4AF37] transition-all cursor-pointer ${conv.isActive ? 'border-[#D4AF37]/40' : 'border-[#D4AF37]/20'
+                        className={`bg-[#111111] border rounded-lg p-4 hover:border-primary transition-all cursor-pointer ${conv.isActive ? 'border-primary/40' : 'border-primary/20'
                             }`}
                     >
                         <div className="flex items-start gap-4">
                             {/* Avatar */}
-                            <div className="w-12 h-12 rounded-full bg-[#D4AF37]/20 flex items-center justify-center shrink-0 overflow-hidden">
+                            <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0 overflow-hidden">
                                 {conv.createdBy?.image ? (
                                     <img
                                         src={imageUrl + conv.createdBy.image}
@@ -453,7 +453,7 @@ export default function AllRequests() {
                                         className="w-full h-full object-cover rounded-full"
                                     />
                                 ) : (
-                                    <MessageSquare className="w-6 h-6 text-[#D4AF37]" />
+                                    <MessageSquare className="w-6 h-6 text-primary" />
                                 )}
                             </div>
 
@@ -546,7 +546,7 @@ export default function AllRequests() {
                             <p className="text-gray-300 mb-2">
                                 Are you sure you want to permanently delete this request and all associated conversations?
                             </p>
-                            <div className="p-3 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/20">
+                            <div className="p-3 bg-[#1A1A1A] rounded-lg border border-primary/20">
                                 <p className="text-white font-medium">{requestToDelete.title}</p>
                                 <p className="text-gray-400 text-sm">Posted by: {requestToDelete.userName}</p>
                             </div>

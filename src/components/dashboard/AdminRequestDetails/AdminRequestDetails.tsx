@@ -34,7 +34,7 @@ export function AdminRequestDetails() {
   if (isLoading) {
     return (
       <div className="p-8">
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6 animate-pulse">
+        <div className="bg-[#111111] border border-primary/20 rounded-xl p-6 animate-pulse">
           <div className="h-8 bg-gray-700 rounded w-3/4 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
@@ -52,7 +52,7 @@ export function AdminRequestDetails() {
         <div className="text-red-400 mb-4">Failed to load request details</div>
         <button
           onClick={() => navigate(isApprovalView ? '/approvals' : '/requests')}
-          className="text-[#D4AF37] hover:underline"
+          className="text-primary hover:underline"
         >
           ← Back to list
         </button>
@@ -75,7 +75,7 @@ export function AdminRequestDetails() {
 
       <div className="space-y-6">
         {/* Main Request Card */}
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-xl p-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
             <h1 className="text-2xl md:text-3xl font-serif text-white">{request?.title}</h1>
 
@@ -114,14 +114,14 @@ export function AdminRequestDetails() {
               {request?.location || 'Not specified'}
             </div> */}
             <div className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-[#D4AF37] font-medium">{request?.budgetRange}</span>
+              <DollarSign className="w-4 h-4 text-primary" />
+              <span className="text-primary font-medium">{request?.budgetRange}</span>
             </div>
           </div>
         </div>
 
         {/* Description */}
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-xl p-6">
           <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-4">Request Description</h3>
           <p className="text-gray-300 leading-relaxed whitespace-pre-line">
             {request?.description || 'No description provided.'}
@@ -145,9 +145,9 @@ function InfoCard({
   highlight?: boolean;
 }) {
   return (
-    <div className="bg-[#0A0A0A] border border-[#D4AF37]/10 rounded-lg p-4">
+    <div className="bg-[#0A0A0A] border border-primary/10 rounded-lg p-4">
       <p className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">{label}</p>
-      <p className={`font-medium ${highlight ? 'text-[#D4AF37]' : 'text-white'}`}>
+      <p className={`font-medium ${highlight ? 'text-primary' : 'text-white'}`}>
         {value || '—'}
       </p>
     </div>

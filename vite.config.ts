@@ -12,7 +12,8 @@ export default defineConfig({
     },
   },
   server: {
-    host: "10.10.7.46",
+    // host: "10.10.7.46",
+    host: "192.168.0.141",
     port: 3014,
   },
 })

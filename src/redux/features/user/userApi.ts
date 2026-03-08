@@ -22,7 +22,7 @@ const userApi = baseApi.injectEndpoints({
     createAdmin: build.mutation({
       query: (data)=>{
         return {
-          url: "/users/create-admin",
+          url: "/admins/create-admin",
           method: "POST",
           body: data
         }
@@ -31,12 +31,12 @@ const userApi = baseApi.injectEndpoints({
     }),
     
     getAdmin: build.query({
-        query: ()=> `/users/admins${location.search}`,
+        query: ()=> `/admins/get-admin${location.search}`,
         providesTags: ['admin'],
         transformResponse: (response: {data: any})=> response.data,
     }),
     deleteAdmin: build.mutation({
-        query: (id)=> {return {url: `/users/admins/${id}`, method: "DELETE"}},
+        query: (id)=> {return {url: `/admins/${id}`, method: "DELETE"}},
         invalidatesTags: ['admin'],
         
     }),

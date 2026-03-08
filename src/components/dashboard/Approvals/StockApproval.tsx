@@ -51,7 +51,7 @@ export default function StockApproval() {
   /* -------------------- Empty State -------------------- */
   if (!pendingStock?.data?.length) {
     return (
-      <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-12 text-center">
+      <div className="bg-[#111111] border border-primary/20 rounded-lg p-12 text-center">
         <Building2 className="w-12 h-12 text-gray-600 mx-auto mb-4" />
         <p className="text-gray-400">No pending stock listings</p>
         <p className="text-gray-500 text-sm mt-2">
@@ -148,7 +148,7 @@ export default function StockApproval() {
                   </div>
 
                   <div className="flex items-center gap-2 text-sm">
-                    <DollarSign className="w-4 h-4 text-[#D4AF37]" />
+                    <DollarSign className="w-4 h-4 text-primary" />
                     <span className="text-white font-medium">
                       {item.price ?? '—'}
                     </span>
@@ -182,7 +182,7 @@ export default function StockApproval() {
                   </button>
 
                   <Button
-                    size="sm"
+                    size="lg"
                     className="ml-auto"
                     onClick={() =>
                       navigate(`/approvals/stock/${item._id}?pending=true`)

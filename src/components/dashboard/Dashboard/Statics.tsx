@@ -26,7 +26,7 @@ export default function Statics() {
 
           {/* Year Selector & Export */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#111111] border border-[#D4AF37]/20 rounded-lg px-4 py-2">
+            <div className="flex items-center gap-2 bg-[#111111] border border-primary/20 rounded-lg px-4 py-2">
               <Calendar className="w-4 h-4 text-gray-400" />
               <select
                 value={selectedYear}
@@ -48,10 +48,10 @@ export default function Statics() {
       </div>
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
-              <Users className="w-6 h-6 text-[#D4AF37]" />
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Users className="w-6 h-6 text-primary" />
             </div>
             <div className={`flex items-center gap-1 text-sm ${parseFloat(dashboardData?.totalUsers?.growthPercent) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {parseFloat(dashboardData?.totalUsers?.growthPercent) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
@@ -93,10 +93,10 @@ export default function Statics() {
         </div>
 
         
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-[#D4AF37]" />
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Building2 className="w-6 h-6 text-primary" />
             </div>
           </div>
           <h3 className="text-3xl font-bold text-white mb-1">{dashboardData?.stockListings?.count?.toLocaleString()} </h3>

@@ -9,20 +9,20 @@ const ChatList = ({ chatsData }: any) => {
   return (
     <div>
       <div
-        className="bg-[#111111] border border-[#D4AF37]/20 rounded-xl overflow-hidden"
+        className="bg-[#111111] border border-primary/20 rounded-xl overflow-hidden"
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-[#D4AF37]/20 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-primary/20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <MessageSquare className="w-5 h-5 text-[#D4AF37]" />
+            <MessageSquare className="w-5 h-5 text-primary" />
             <div>
               <h3 className="text-white font-medium">Individual Chats</h3>
               <p className="text-xs text-gray-500">{chatsData?.conversations?.length} active conversations</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-lg px-3 py-1.5">
-            <Shield className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span className="text-xs text-[#D4AF37] font-medium">Admin View - All Chats</span>
+          <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5">
+            <Shield className="w-3.5 h-3.5 text-primary" />
+            <span className="text-xs text-primary font-medium">Admin View - All Chats</span>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ const ChatList = ({ chatsData }: any) => {
           {/* Chat 1: Seller_001 with Buyer_789 */}
           {chatsData?.conversations?.length && chatsData?.conversations?.map((chat: any) => 
           <div key={chat._id}
-            className="bg-[#111111] border border-white/5 hover:border-[#D4AF37]/30 rounded-lg p-4 transition-all cursor-pointer group"
+            className="bg-[#111111] border border-white/5 hover:border-primary/30 rounded-lg p-4 transition-all cursor-pointer group"
           >
             <div className="flex items-start gap-3 ">
               {chat?.ownerId?.image ? <img src={imageUrl + chat?.ownerId?.image} className='w-10 h-10 rounded-full object-cover' /> :
@@ -56,7 +56,7 @@ const ChatList = ({ chatsData }: any) => {
                   </p>
 
                  <Link to={`/requests/${id}/chat/${chat?._id}`}> <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#D4AF37] text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     View Chat
@@ -69,7 +69,7 @@ const ChatList = ({ chatsData }: any) => {
 
           {/* Chat 2: Developer_042 with Buyer_789 */}
           <div
-            className="bg-[#111111] border border-white/5 hover:border-[#D4AF37]/30 rounded-lg p-4 transition-all cursor-pointer group"
+            className="bg-[#111111] border border-white/5 hover:border-primary/30 rounded-lg p-4 transition-all cursor-pointer group"
           >
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-sm font-medium flex-shrink-0">
@@ -96,7 +96,7 @@ const ChatList = ({ chatsData }: any) => {
                     4 messages
                   </span>
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#D4AF37] text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     View Chat
@@ -108,7 +108,7 @@ const ChatList = ({ chatsData }: any) => {
 
           {/* Chat 3: Agent_105 with Buyer_789 */}
           <div
-            className="bg-[#111111] border border-white/5 hover:border-[#D4AF37]/30 rounded-lg p-4 transition-all cursor-pointer group"
+            className="bg-[#111111] border border-white/5 hover:border-primary/30 rounded-lg p-4 transition-all cursor-pointer group"
           >
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-sm font-medium flex-shrink-0">
@@ -135,7 +135,7 @@ const ChatList = ({ chatsData }: any) => {
                     9 messages
                   </span>
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#D4AF37] text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-black text-xs font-medium rounded-lg hover:bg-[#F4CF57] transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     View Chat

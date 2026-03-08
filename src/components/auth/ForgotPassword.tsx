@@ -40,7 +40,7 @@ export default function ForgotPassword() {
           </div>
         </div>
 
-        <div className="bg-[#111111] p-8 rounded-xl border border-[#D4AF37]/20">
+        <div className="bg-[#111111] p-8 rounded-xl border border-primary/20">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -52,7 +52,7 @@ export default function ForgotPassword() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-colors"
+                  className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                   placeholder="you@example.com"
                   required
                 />
@@ -68,7 +68,7 @@ export default function ForgotPassword() {
           <div className="mt-6 text-center text-white">
             <Link
               to="/login"
-              className="inline-flex items-center text-sm text-gray-400 hover:text-[#D4AF37] transition-colors"
+              className="inline-flex items-center text-sm text-gray-400 hover:text-primary transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Sign In

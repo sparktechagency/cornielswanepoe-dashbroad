@@ -76,10 +76,10 @@ const PersonalInformation = () => {
   return (
     <>
       {/* Profile Image */}
-      <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+      <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
-            <ImageIcon className="w-5 h-5 text-[#D4AF37]" />
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <ImageIcon className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h2 className="text-lg font-serif text-white">Profile Image</h2>
@@ -90,14 +90,14 @@ const PersonalInformation = () => {
         <div className="flex items-center gap-6">
           {/* Current/Preview Image */}
           <div className="relative">
-            {!file && existingProfile ? (<div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#D4AF37]/20">
+            {!file && existingProfile ? (<div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-primary/20">
               <img
                 src={imageUrl + existingProfile}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
             </div>) : imagePreview ? (
-              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#D4AF37]/20">
+              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-primary/20">
                 <img
                   src={imagePreview}
                   alt="Profile"
@@ -105,7 +105,7 @@ const PersonalInformation = () => {
                 />
               </div>
             ) : (
-              <div className="w-24 h-24 rounded-full bg-[#1A1A1A] border-2 border-[#D4AF37]/20 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-full bg-[#1A1A1A] border-2 border-primary/20 flex items-center justify-center">
                 <User className="w-10 h-10 text-gray-500" />
               </div>
             )}
@@ -120,7 +120,7 @@ const PersonalInformation = () => {
                 onChange={handleImageUpload}
                 className="hidden"
               />
-              <div className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg text-white hover:bg-[#2A2A2A] transition-colors">
+              <div className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] border border-primary/20 rounded-lg text-white hover:bg-[#2A2A2A] transition-colors">
                 <Upload className="w-4 h-4" />
                 Upload New Image
               </div>
@@ -143,7 +143,7 @@ const PersonalInformation = () => {
       </div>
 
       {/* Profile Information */}
-      <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+      <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-lg bg-blue-400/10 flex items-center justify-center">
             <User className="w-5 h-5 text-blue-400" />
@@ -163,7 +163,7 @@ const PersonalInformation = () => {
               type="text"
               value={form.name}
               onChange={(e) => setFormData({ ...form, name: e.target.value })}
-              className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D4AF37]"
+              className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary"
               placeholder="Enter your full name"
             />
           </div>
@@ -176,7 +176,7 @@ const PersonalInformation = () => {
               type="email"
               value={form.email}
               disabled
-              className="w-full bg-[#0A0A0A] border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-gray-500 cursor-not-allowed"
+              className="w-full bg-[#0A0A0A] border border-primary/20 rounded-lg px-4 py-3 text-gray-500 cursor-not-allowed"
               placeholder="Enter your email"
             />
             <p className="text-xs text-gray-500 mt-1">Email cannot be changed for security reasons</p>
@@ -191,7 +191,7 @@ const PersonalInformation = () => {
               value={form.phone}
               onChange={(e) => setFormData({ ...form, phone: e.target.value })}
 
-              className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D4AF37]"
+              className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary"
               placeholder="Enter your phone number"
             />
           </div>

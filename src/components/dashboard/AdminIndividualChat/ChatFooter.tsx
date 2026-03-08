@@ -23,7 +23,7 @@ const ChatFooter = ({ conversationId }: { conversationId: string }) => {
     };
 
     return (
-        <div className="bg-[#111111] border-t border-[#D4AF37]/20">
+        <div className="bg-[#111111] border-t border-primary/20">
             <div className="max-w-4xl mx-auto px-6 py-4">
                 <form onSubmit={handleSend} className="relative">
                     <textarea
@@ -37,12 +37,12 @@ const ChatFooter = ({ conversationId }: { conversationId: string }) => {
                             }
                         }}
                         placeholder="Type message here..."
-                        className="w-full bg-[#0A0A0A] border border-[#D4AF37]/20 rounded-xl pl-4 pr-14 py-3 text-white placeholder:text-gray-600 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none resize-none text-sm transition-all"
+                        className="w-full bg-[#0A0A0A] border border-primary/20 rounded-xl pl-4 pr-14 py-3 text-white placeholder:text-gray-600 focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none text-sm transition-all"
                     />
                     <button
                         type="submit"
                         disabled={!message.trim()}
-                        className="absolute right-2 top-2 bg-[#D4AF37] text-black p-2.5 rounded-lg hover:bg-[#F4CF57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        className="absolute right-2 top-2 bg-primary text-black p-2.5 rounded-lg hover:bg-[#F4CF57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
                         <Send className="w-4 h-4" />
                     </button>

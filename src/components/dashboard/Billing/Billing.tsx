@@ -132,17 +132,17 @@ export default function Billing() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
-              <DollarSign className="w-6 h-6 text-[#D4AF37]" />
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+              <DollarSign className="w-6 h-6 text-primary" />
             </div>
           </div>
           <p className="text-gray-400 text-sm mb-1">Total Revenue</p>
           <p className="text-white text-3xl font-bold">${totalRevenue.toLocaleString()}</p>
         </div>
 
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-green-400/10 flex items-center justify-center">
               <Check className="w-6 h-6 text-green-400" />
@@ -152,7 +152,7 @@ export default function Billing() {
           <p className="text-white text-3xl font-bold">{completedCount}</p>
         </div>
 
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 rounded-lg bg-orange-400/10 flex items-center justify-center">
               <Clock className="w-6 h-6 text-orange-400" />
@@ -164,10 +164,10 @@ export default function Billing() {
       </div>
 
       {/* Subscription Tier Info */}
-      <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6 mb-8">
+      <div className="bg-[#111111] border border-primary/20 rounded-lg p-6 mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/10 flex items-center justify-center">
-            <CreditCard className="w-5 h-5 text-[#D4AF37]" />
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <CreditCard className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h3 className="text-white font-medium">Premium Subscription</h3>
@@ -191,9 +191,9 @@ export default function Billing() {
       </div>
 
       {/* Transactions Section */}
-      <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg overflow-hidden">
+      <div className="bg-[#111111] border border-primary/20 rounded-lg overflow-hidden">
         {/* Header */}
-        <div className="p-6 border-b border-[#D4AF37]/20">
+        <div className="p-6 border-b border-primary/20">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <h2 className="text-xl text-white font-medium">Recent Transactions</h2>
             
@@ -206,7 +206,7 @@ export default function Billing() {
                   placeholder="Search transactions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-64 bg-black border border-[#D4AF37]/20 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37]"
+                  className="w-full sm:w-64 bg-black border border-primary/20 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary"
                 />
               </div>
 
@@ -214,7 +214,7 @@ export default function Billing() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="bg-black border border-[#D4AF37]/20 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-[#D4AF37]"
+                className="bg-black border border-primary/20 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary"
               >
                 <option value="all">All Status</option>
                 <option value="completed">Completed</option>
@@ -235,7 +235,7 @@ export default function Billing() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#D4AF37]/20">
+              <tr className="border-b border-primary/20">
                 <th className="text-left text-gray-400 font-medium text-sm px-6 py-4">Transaction ID</th>
                 <th className="text-left text-gray-400 font-medium text-sm px-6 py-4">User</th>
                 <th className="text-left text-gray-400 font-medium text-sm px-6 py-4">Type</th>
@@ -247,7 +247,7 @@ export default function Billing() {
             </thead>
             <tbody>
               {filteredTransactions.map((txn) => (
-                <tr key={txn.id} className="border-b border-[#D4AF37]/10 hover:bg-[#D4AF37]/5 transition-colors">
+                <tr key={txn.id} className="border-b border-primary/10 hover:bg-primary/5 transition-colors">
                   <td className="px-6 py-4">
                     <p className="text-white font-mono text-sm">{txn.id}</p>
                   </td>
@@ -259,7 +259,7 @@ export default function Billing() {
                     <span className="text-gray-300 text-sm">{txn.type}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-[#D4AF37] text-sm font-medium">{txn.plan}</span>
+                    <span className="text-primary text-sm font-medium">{txn.plan}</span>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`text-sm font-medium ${txn.amount >= 0 ? 'text-green-400' : 'text-red-400'}`}>

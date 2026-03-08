@@ -23,7 +23,7 @@ export default function DeleteConfirmModal({
 
     return (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-            <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6 max-w-md w-full">
+            <div className="bg-[#111111] border border-primary/20 rounded-lg p-6 max-w-md w-full">
 
                 <div className="flex items-center gap-3">
                     {/* Icon */}
@@ -57,7 +57,7 @@ export default function DeleteConfirmModal({
                     <button
                         onClick={onClose}
                         disabled={isLoading}
-                        className="flex-1 px-4 py-2.5 bg-[#1A1A1A] text-white border border-[#D4AF37]/30 rounded-lg hover:border-[#D4AF37] hover:bg-[#2A2A2A] transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="flex-1 px-4 py-2.5 bg-[#1A1A1A] text-white border border-primary/30 rounded-lg hover:border-primary hover:bg-[#2A2A2A] transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                         Cancel
                     </button>

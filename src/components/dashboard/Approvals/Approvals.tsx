@@ -33,11 +33,11 @@ const Approvals = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 mb-6 border-b border-[#D4AF37]/10">
+      <div className="flex items-center gap-2 mb-6 border-b border-primary/10">
         <button
           onClick={() => setActiveTab('stock')}
           className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${activeTab === 'stock'
-            ? 'bg-[#D4AF37] text-black'
+            ? 'bg-primary text-black'
             : 'bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]'
             }`}
         >
@@ -50,7 +50,7 @@ const Approvals = () => {
         <button
           onClick={() => setActiveTab('requests')}
           className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${activeTab === 'requests'
-            ? 'bg-[#D4AF37] text-black'
+            ? 'bg-primary text-black'
             : 'bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]'
             }`}
         >

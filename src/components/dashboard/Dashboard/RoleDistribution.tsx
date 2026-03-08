@@ -43,7 +43,7 @@ export default function RoleDistribution() {
 
       if (isLoading) {
     return (
-      <div className="lg:col-span-2 bg-[#111111] border border-[#D4AF37]/20 rounded-lg py-6 px-6">
+      <div className="lg:col-span-2 bg-[#111111] border border-primary/20 rounded-lg py-6 px-6">
         <div className="h-[300px] flex items-center justify-center">
           <p className="text-gray-400">Loading user roles data...</p>
         </div>
@@ -52,7 +52,7 @@ export default function RoleDistribution() {
   }
 
   return (
-    <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+    <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
       <h2 className="text-xl font-serif text-white mb-1">User Roles</h2>
       <p className="text-gray-400 text-sm mb-6">Distribution by role type</p>
 

@@ -153,7 +153,7 @@ export default function InvestorBrief() {
       {/* Briefs Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {briefs.map((brief) => (
-          <div key={brief.id} className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg overflow-hidden hover:border-[#D4AF37]/40 transition-colors">
+          <div key={brief.id} className="bg-[#111111] border border-primary/20 rounded-lg overflow-hidden hover:border-primary/40 transition-colors">
             {/* Image */}
             <div className="relative h-48 bg-[#1A1A1A]">
               {brief.image ? (
@@ -219,9 +219,9 @@ export default function InvestorBrief() {
       {/* Create/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#111111] border border-primary/20 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             {/* Header */}
-            <div className="p-6 border-b border-[#D4AF37]/20 flex items-center justify-between">
+            <div className="p-6 border-b border-primary/20 flex items-center justify-between">
               <h2 className="text-xl text-white font-medium">
                 {editingBrief ? 'Edit Brief' : 'Create New Brief'}
               </h2>
@@ -242,7 +242,7 @@ export default function InvestorBrief() {
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Enter brief title"
-                  className="w-full bg-black border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37]"
+                  className="w-full bg-black border border-primary/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary"
                 />
               </div>
 
@@ -256,7 +256,7 @@ export default function InvestorBrief() {
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Enter brief description"
                   rows={6}
-                  className="w-full bg-black border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] resize-none"
+                  className="w-full bg-black border border-primary/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary resize-none"
                 />
               </div>
 
@@ -268,7 +268,7 @@ export default function InvestorBrief() {
                 
                 {/* Upload Button/Area */}
                 {!imagePreview ? (
-                  <label className="block w-full bg-black border-2 border-dashed border-[#D4AF37]/20 rounded-lg p-8 text-center cursor-pointer hover:border-[#D4AF37]/40 transition-colors">
+                  <label className="block w-full bg-black border-2 border-dashed border-primary/20 rounded-lg p-8 text-center cursor-pointer hover:border-primary/40 transition-colors">
                     <input
                       type="file"
                       accept="image/*"
@@ -280,7 +280,7 @@ export default function InvestorBrief() {
                     <p className="text-gray-500 text-xs">PNG, JPG, WEBP up to 10MB</p>
                   </label>
                 ) : (
-                  <div className="relative rounded-lg overflow-hidden border border-[#D4AF37]/20">
+                  <div className="relative rounded-lg overflow-hidden border border-primary/20">
                     <img src={imagePreview} alt="Preview" className="w-full h-64 object-cover" />
                     <button
                       type="button"
@@ -304,7 +304,7 @@ export default function InvestorBrief() {
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value as 'Published' | 'Draft' })}
-                  className="w-full bg-black border border-[#D4AF37]/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D4AF37]"
+                  className="w-full bg-black border border-primary/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary"
                 >
                   <option value="Draft">Draft</option>
                   <option value="Published">Published</option>
@@ -318,7 +318,7 @@ export default function InvestorBrief() {
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-[#D4AF37]/20 flex items-center justify-end gap-3">
+            <div className="p-6 border-t border-primary/20 flex items-center justify-end gap-3">
               <Button variant="outline" size="sm" onClick={() => setShowModal(false)}>
                 Cancel
               </Button>

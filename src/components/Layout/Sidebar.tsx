@@ -54,12 +54,12 @@ export default function Sidebar() {
 
   return (
     <aside className={`
-        fixed lg:sticky top-0 left-0 h-screen w-72 bg-[#0A0A0A] border-r border-[#D4AF37]/20 
+        fixed lg:sticky top-0 left-0 h-screen w-72 bg-[#0A0A0A] border-r border-primary/20 
         flex flex-col z-50 transform transition-transform duration-300
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
       {/* Admin Header */}
-      <div className="p-6 border-b border-[#D4AF37]/20">
+      <div className="p-6 border-b border-primary/20">
         <div className={`flex items-center justify-center gap-3`}>
           <img
             src="/logo.png"
@@ -84,7 +84,7 @@ export default function Sidebar() {
                 className={`
                     flex items-center gap-3 px-4 py-3 rounded-lg transition-all
                     ${active
-                    ? 'bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]'
+                    ? 'bg-primary/20 text-primary border border-primary'
                     : 'text-gray-400 hover:text-white hover:bg-[#1A1A1A]'
                   }
                   `}
@@ -103,7 +103,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer Actions */}
-      <div className="p-4 border-t border-[#D4AF37]/20 space-y-2">
+      <div className="p-4 border-t border-primary/20 space-y-2">
         {/* <Link
             to="/"
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-[#1A1A1A] transition-all"

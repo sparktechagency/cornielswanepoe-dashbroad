@@ -35,7 +35,7 @@ const RequestApproval = () => {
   /* ── Empty ── */
   if (!pendingStock?.data?.length) {
     return (
-      <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-12 text-center">
+      <div className="bg-[#111111] border border-primary/20 rounded-lg p-12 text-center">
         <Building2 className="w-12 h-12 text-gray-600 mx-auto mb-4" />
         <p className="text-gray-400">No pending request listings</p>
         <p className="text-gray-500 text-sm mt-2">All listings have been reviewed</p>
@@ -115,7 +115,7 @@ const RequestApproval = () => {
                   <span className="text-white font-medium truncate">{item.createdBy}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <DollarSign className="w-4 h-4 text-[#D4AF37]" />
+                  <DollarSign className="w-4 h-4 text-primary" />
                   <span className="text-white font-medium">{item.budgetRange}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm col-span-2">
@@ -139,21 +139,21 @@ const RequestApproval = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => handleRequestApprove(item._id, "active")}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 transition-all group"
+                  className="flex items-center gap-2 px-4 py-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 transition-all group"
                 >
                   <CheckCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
                   <span className="font-medium">Approve</span>
                 </button>
                 <button
                   onClick={() => handleRequestApprove(item._id, "cancelled")}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 transition-all group"
+                  className="flex items-center gap-2 px-4 py-1.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 transition-all group"
                 >
                   <XCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
                   <span className="font-medium">Reject</span>
                 </button>
                 <Link to={`/approvals/requests/${item._id}?pending=true`}>
                 <Button
-                  size="sm"
+                  size="lg"
                   className="ml-auto"
                 >
                   <Eye className="w-4 h-4" />

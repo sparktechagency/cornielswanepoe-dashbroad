@@ -38,7 +38,7 @@ export default function UserGrowthTrend() {
   
   if (isLoading) {
     return (
-      <div className="lg:col-span-2 bg-[#111111] border border-[#D4AF37]/20 rounded-lg py-6 px-6">
+      <div className="lg:col-span-2 bg-[#111111] border border-primary/20 rounded-lg py-6 px-6">
         <div className="h-[300px] flex items-center justify-center">
           <p className="text-gray-400">Loading user growth data...</p>
         </div>
@@ -47,7 +47,7 @@ export default function UserGrowthTrend() {
   }
 
   return (
-    <div className="lg:col-span-2 bg-[#111111] border border-[#D4AF37]/20 rounded-lg py-6">
+    <div className="lg:col-span-2 bg-[#111111] border border-primary/20 rounded-lg py-6">
       <div className="flex items-center justify-between mb-6 px-6">
         <div>
           <h2 className="text-xl font-serif text-white mb-1">User Growth Trend</h2>
@@ -57,8 +57,8 @@ export default function UserGrowthTrend() {
         </div>
 
         {/* Year Filter */}
-        <div className="flex items-center gap-2 bg-[#1A1A1A] border border-[#D4AF37]/30 rounded-lg px-3 py-1.5">
-          <Calendar className="w-4 h-4 text-[#D4AF37]" />
+        <div className="flex items-center gap-2 bg-[#1A1A1A] border border-primary/30 rounded-lg px-3 py-1.5">
+          <Calendar className="w-4 h-4 text-primary" />
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}

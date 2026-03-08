@@ -14,7 +14,7 @@ const SubscriptionChart = () => {
     
   if (isLoading) {
     return (
-      <div className="lg:col-span-2 bg-[#111111] border border-[#D4AF37]/20 rounded-lg py-6 px-6">
+      <div className="lg:col-span-2 bg-[#111111] border border-primary/20 rounded-lg py-6 px-6">
         <div className="h-[300px] flex items-center justify-center">
           <p className="text-gray-400">Loading subscription data...</p>
         </div>
@@ -23,15 +23,15 @@ const SubscriptionChart = () => {
   }
 
   return (
-    <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6 mb-8">
+    <div className="bg-[#111111] border border-primary/20 rounded-lg p-6 mb-8">
       <div className="flex items-center justify-between mb-6 px-6">
         <div className="">
           <h2 className="text-xl font-serif text-white mb-1">Subscription Breakdown</h2>
           <p className="text-gray-400 text-sm mb-6">Monthly comparison of paid vs free users</p>
         </div>
         {/* Year Filter */}
-        <div className="flex items-center gap-2 bg-[#1A1A1A] border border-[#D4AF37]/30 rounded-lg px-3 py-1.5">
-          <Calendar className="w-4 h-4 text-[#D4AF37]" />
+        <div className="flex items-center gap-2 bg-[#1A1A1A] border border-primary/30 rounded-lg px-3 py-1.5">
+          <Calendar className="w-4 h-4 text-primary" />
           <select
             value={Number(selectedYear)}
             onChange={(e) => setSelectedYear(e.target.value)}

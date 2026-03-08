@@ -52,11 +52,11 @@ export default function AdminIndividualChat() {
   return (
     <div className="h-screen flex flex-col bg-[#0A0A0A]">
       {/* Header */}
-      <div className="bg-[#111111] border-b border-[#D4AF37]/20 px-6 py-4">
+      <div className="bg-[#111111] border-b border-primary/20 px-6 py-4">
         <div className="max-w-6xl mx-auto">
           <button
             onClick={() => navigate(`/requests/${requestId}`)}
-            className="flex items-center gap-2 text-gray-400 hover:text-[#D4AF37] transition-colors mb-3 group text-sm"
+            className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors mb-3 group text-sm"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to Request
@@ -80,9 +80,9 @@ export default function AdminIndividualChat() {
               </div>
             </div>
             <div className="flex flex-col items-center justify-end gap-3">
-              <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-lg px-3 py-1.5">
-                <Shield className="w-4 h-4 text-[#D4AF37]" />
-                <span className="text-xs text-[#D4AF37] font-medium">Admin Monitoring</span>
+              <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5">
+                <Shield className="w-4 h-4 text-primary" />
+                <span className="text-xs text-primary font-medium">Admin Monitoring</span>
               </div>
               {isBlocked ? (
                 <button
@@ -123,7 +123,7 @@ export default function AdminIndividualChat() {
                     className={`flex items-center gap-2 mb-1.5 px-1 ${isAdmin ? 'justify-center' : isUser ? 'justify-end' : 'justify-start'}`}
                   >
                     <span
-                      className={`text-xs font-medium ${isAdmin ? 'text-[#D4AF37]' : isUser ? 'text-blue-400' : 'text-gray-400'}`}
+                      className={`text-xs font-medium ${isAdmin ? 'text-primary' : isUser ? 'text-blue-400' : 'text-gray-400'}`}
                     >
                       {msg.senderId?.name}
                       {!isAdmin && (
@@ -132,7 +132,7 @@ export default function AdminIndividualChat() {
                         </span>
                       )}
                       {isAdmin && (
-                        <span className="ml-2 text-[10px] bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 rounded">
+                        <span className="ml-2 text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded">
                           ADMIN
                         </span>
                       )}
@@ -148,7 +148,7 @@ export default function AdminIndividualChat() {
                   {/* Message Bubble */}
                   <div
                     className={`rounded-2xl px-4 py-3 ${isAdmin
-                      ? 'bg-[#D4AF37]/10 border border-[#D4AF37]/30'
+                      ? 'bg-primary/10 border border-primary/30'
                       : isUser
                         ? 'bg-blue-600/20 border border-blue-500/30'
                         : 'bg-[#1A1A1A] border border-white/10'

@@ -32,7 +32,7 @@ const Navbar = () => {
   
 
   return (
-    <header className="sticky top-0 z-30 bg-[#0A0A0A] border-b border-[#D4AF37]/20">
+    <header className="sticky top-0 z-30 bg-[#0A0A0A] border-b border-primary/20">
       <div className="px-6 py-4 flex items-center justify-between gap-4">
         {/* Mobile Menu Button */}
         <Button          
@@ -79,11 +79,11 @@ const Navbar = () => {
                   className="fixed inset-0 z-10"
                   onClick={() => setShowNotifications(false)}
                 />
-                <div className="absolute right-0 mt-2 w-96 bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg shadow-xl z-20 overflow-hidden max-h-[500px] flex flex-col">
+                <div className="absolute right-0 mt-2 w-96 bg-[#1A1A1A] border border-primary/20 rounded-lg shadow-xl z-20 overflow-hidden max-h-[500px] flex flex-col">
                   {/* Header */}
-                  <div className="p-4 border-b border-[#D4AF37]/20 flex items-center justify-between">
+                  <div className="p-4 border-b border-primary/20 flex items-center justify-between">
                     <h3 className="text-white font-medium">Notifications</h3>
-                    <button className="text-xs text-[#D4AF37] hover:underline">
+                    <button className="text-xs text-primary hover:underline">
                       Mark all as read
                     </button>
                   </div>
@@ -91,7 +91,7 @@ const Navbar = () => {
                   {/* Notifications List */}
                   <div className="overflow-y-auto flex-1">
                     {/* New User Registration */}
-                    <div className="p-4 border-b border-[#D4AF37]/10 hover:bg-[#D4AF37]/5 transition-colors cursor-pointer">
+                    <div className="p-4 border-b border-primary/10 hover:bg-primary/5 transition-colors cursor-pointer">
                       <div className="flex gap-3">
                         <div className="w-10 h-10 rounded-full bg-green-400/10 flex items-center justify-center flex-shrink-0">
                           <Users className="w-5 h-5 text-green-400" />
@@ -109,10 +109,10 @@ const Navbar = () => {
                     </div>
 
                     {/* Property Listed */}
-                    <div className="p-4 border-b border-[#D4AF37]/10 hover:bg-[#D4AF37]/5 transition-colors cursor-pointer">
+                    <div className="p-4 border-b border-primary/10 hover:bg-primary/5 transition-colors cursor-pointer">
                       <div className="flex gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#D4AF37]/10 flex items-center justify-center flex-shrink-0">
-                          <Building2 className="w-5 h-5 text-[#D4AF37]" />
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Building2 className="w-5 h-5 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-white text-sm font-medium">New Property Listed</p>
@@ -127,7 +127,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Payment Received */}
-                    <div className="p-4 border-b border-[#D4AF37]/10 hover:bg-[#D4AF37]/5 transition-colors cursor-pointer">
+                    <div className="p-4 border-b border-primary/10 hover:bg-primary/5 transition-colors cursor-pointer">
                       <div className="flex gap-3">
                         <div className="w-10 h-10 rounded-full bg-green-400/10 flex items-center justify-center flex-shrink-0">
                           <CreditCard className="w-5 h-5 text-green-400" />
@@ -144,7 +144,7 @@ const Navbar = () => {
                     </div>
 
                     {/* New Request */}
-                    <div className="p-4 border-b border-[#D4AF37]/10 hover:bg-[#D4AF37]/5 transition-colors cursor-pointer">
+                    <div className="p-4 border-b border-primary/10 hover:bg-primary/5 transition-colors cursor-pointer">
                       <div className="flex gap-3">
                         <div className="w-10 h-10 rounded-full bg-blue-400/10 flex items-center justify-center flex-shrink-0">
                           <MessageSquare className="w-5 h-5 text-blue-400" />
@@ -161,7 +161,7 @@ const Navbar = () => {
                     </div>
 
                     {/* System Update */}
-                    <div className="p-4 hover:bg-[#D4AF37]/5 transition-colors cursor-pointer">
+                    <div className="p-4 hover:bg-primary/5 transition-colors cursor-pointer">
                       <div className="flex gap-3">
                         <div className="w-10 h-10 rounded-full bg-purple-400/10 flex items-center justify-center flex-shrink-0">
                           <Settings className="w-5 h-5 text-purple-400" />
@@ -179,11 +179,11 @@ const Navbar = () => {
                   </div>
 
                   {/* Footer */}
-                  <div className="p-3 border-t border-[#D4AF37]/20 text-center">
+                  <div className="p-3 border-t border-primary/20 text-center">
                     <Link
                       to="/notifications"
                       onClick={() => setShowNotifications(false)}
-                      className="text-xs text-[#D4AF37] hover:underline"
+                      className="text-xs text-primary hover:underline"
                     >
                       View all notifications
                     </Link>
@@ -214,8 +214,8 @@ const Navbar = () => {
                   className="fixed inset-0 z-10"
                   onClick={() => setShowProfileMenu(false)}
                 />
-                <div className="absolute right-0 mt-2 w-56 bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg shadow-xl z-20 overflow-hidden">
-                  <div className="p-4 border-b border-[#D4AF37]/20">
+                <div className="absolute right-0 mt-2 w-56 bg-[#1A1A1A] border border-primary/20 rounded-lg shadow-xl z-20 overflow-hidden">
+                  <div className="p-4 border-b border-primary/20">
                     <p className="text-white font-medium text-sm">{profileData?.name}</p>
                     <p className="text-gray-400 text-xs">{profileData?.email}</p>
                   </div>
@@ -223,7 +223,7 @@ const Navbar = () => {
                   <Link
                     to="/settings"
                     onClick={() => setShowProfileMenu(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary/10 hover:text-primary transition-colors"
                   >
                     <User className="w-4 h-4" />
                     <span className="text-sm">My Profile</span>
@@ -232,12 +232,12 @@ const Navbar = () => {
                   <Link
                     to="/settings"
                     onClick={() => setShowProfileMenu(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary/10 hover:text-primary transition-colors"
                   >
                     <Settings className="w-4 h-4" />
                     <span className="text-sm">Settings</span>
                   </Link>
-                  <div className="border-t border-[#D4AF37]/20" />
+                  <div className="border-t border-primary/20" />
 
                   <button
                     onClick={() => {

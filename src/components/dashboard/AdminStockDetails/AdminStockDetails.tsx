@@ -274,7 +274,7 @@ return (
         {/* LEFT COLUMN - Property Details (2/3 width) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Property Images */}
-          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+          <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Property Images</h2>
             <div className="grid grid-cols-2 gap-4">
               {stockData?.images.map((imgUrl: string, index: number) => (
@@ -294,7 +294,7 @@ return (
           </div>
 
           {/* Key Information */}
-          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+          <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Key Information</h2>
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 bg-[#1A1A1A] rounded-lg">
@@ -302,7 +302,7 @@ return (
                   <DollarSign className="w-4 h-4" />
                   Price Range
                 </div>
-                <p className="text-[#D4AF37] font-bold text-lg">{stockData?.price}</p>
+                <p className="text-primary font-bold text-lg">{stockData?.price}</p>
               </div>
 
               <div className="p-4 bg-[#1A1A1A] rounded-lg">
@@ -334,13 +334,13 @@ return (
           </div>
 
           {/* Description */}
-          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+          <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Description</h2>
             <p className="text-gray-300 leading-relaxed">{stockData?.description}</p>
           </div>
 
           {/* Features */}
-          <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+          <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
             <h2 className="text-xl font-serif text-white mb-4">Property Features</h2>
             <ul className="space-y-2">
               {stockData?.features?.map((feature: string, index: number) => (
@@ -356,14 +356,14 @@ return (
         {/* RIGHT COLUMN - Interested Parties Panel (1/3 width) - ONLY SHOW IF NOT PENDING */}
         {!isPending && (
           <div className="lg:col-span-1">
-            <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6 sticky top-8">
+            <div className="bg-[#111111] border border-primary/20 rounded-lg p-6 sticky top-8">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-xl font-serif text-white mb-1">Interested Parties</h2>
                   <p className="text-gray-400 text-sm">{interestedParties.length} investors expressed interest</p>
                 </div>
-                <div className="w-12 h-12 rounded-full bg-[#D4AF37]/10 flex items-center justify-center">
-                  <Heart className="w-6 h-6 text-[#D4AF37]" />
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Heart className="w-6 h-6 text-primary" />
                 </div>
               </div>
 
@@ -392,11 +392,11 @@ return (
               {/* Parties List */}
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                 {interestedParties.map((party) => (
-                  <div key={party.id} className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all">
+                  <div key={party.id} className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10 hover:border-primary/30 transition-all">
                     {/* Header */}
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <div className="w-8 h-8 rounded-full bg-[#D4AF37]/20 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                           {getTypeIcon(party.investorType)}
                         </div>
                         <div className="min-w-0">
@@ -436,7 +436,7 @@ return (
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleContact(party)}
-                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-[#D4AF37]/10 text-[#D4AF37] rounded hover:bg-[#D4AF37]/20 transition-colors text-xs font-medium"
+                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-primary/10 text-primary rounded hover:bg-primary/20 transition-colors text-xs font-medium"
                       >
                         <MessageSquare className="w-3 h-3" />
                         Contact
@@ -469,7 +469,7 @@ return (
       {/* Contact Modal - Redesigned for Admin View */}
       {showContactModal && selectedParty && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#111111] border border-[#D4AF37]/30 rounded-lg max-w-md w-full relative">
+          <div className="bg-[#111111] border border-primary/30 rounded-lg max-w-md w-full relative">
             {/* Close Button in Corner */}
             <button
               onClick={() => setShowContactModal(false)}
@@ -486,41 +486,41 @@ return (
 
               <div className="space-y-4">
                 {/* Name */}
-                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10">
                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Full Name</p>
                   <p className="text-white font-medium">{selectedParty.investorName}</p>
                 </div>
 
                 {/* Email */}
-                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-xs text-gray-500 uppercase tracking-wider">Email Address</p>
-                    <Mail className="w-4 h-4 text-[#D4AF37]" />
+                    <Mail className="w-4 h-4 text-primary" />
                   </div>
                   <a
                     href={`mailto:${selectedParty.email}`}
-                    className="text-[#D4AF37] hover:text-[#F4CF57] transition-colors font-medium break-all"
+                    className="text-primary hover:text-[#F4CF57] transition-colors font-medium break-all"
                   >
                     {selectedParty.email}
                   </a>
                 </div>
 
                 {/* Phone */}
-                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-xs text-gray-500 uppercase tracking-wider">Phone Number</p>
-                    <Phone className="w-4 h-4 text-[#D4AF37]" />
+                    <Phone className="w-4 h-4 text-primary" />
                   </div>
                   <a
                     href={`tel:${selectedParty.phone}`}
-                    className="text-[#D4AF37] hover:text-[#F4CF57] transition-colors font-medium"
+                    className="text-primary hover:text-[#F4CF57] transition-colors font-medium"
                   >
                     {selectedParty.phone}
                   </a>
                 </div>
 
                 {/* Investor Type */}
-                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10">
                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Investor Type</p>
                   <div className="flex items-center gap-2">
                     {getTypeIcon(selectedParty.investorType)}
@@ -529,7 +529,7 @@ return (
                 </div>
 
                 {/* Status */}
-                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10">
                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Current Status</p>
                   <span className={`inline-flex px-3 py-1.5 rounded-lg text-sm font-medium ${getStatusBadge(selectedParty.status)}`}>
                     {selectedParty.status}
@@ -537,7 +537,7 @@ return (
                 </div>
 
                 {/* Interest Date */}
-                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-[#D4AF37]/10">
+                <div className="p-4 bg-[#1A1A1A] rounded-lg border border-primary/10">
                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Interest Expressed On</p>
                   <p className="text-white font-medium">
                     {new Date(selectedParty.interestDate).toLocaleDateString('en-US', {
@@ -557,11 +557,11 @@ return (
       {/* Note Modal */}
       {showNoteModal && selectedParty && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#111111] border border-[#D4AF37]/30 rounded-lg max-w-md w-full p-6">
+          <div className="bg-[#111111] border border-primary/30 rounded-lg max-w-md w-full p-6">
             <h2 className="text-2xl font-serif text-white mb-4">Add Internal Note</h2>
             <p className="text-gray-400 text-sm mb-4">For: {selectedParty.investorName}</p>
             <textarea
-              className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-colors min-h-[120px]"
+              className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors min-h-[120px]"
               placeholder="Add your note here..."
             ></textarea>
             <div className="flex gap-3 mt-4">

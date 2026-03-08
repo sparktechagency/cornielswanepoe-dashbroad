@@ -24,11 +24,11 @@ const Requests = () => {
       </div>
 
 
-      <div className="flex items-center gap-2 mb-6 border-b border-[#D4AF37]/10">
+      <div className="flex items-center gap-2 mb-6 border-b border-primary/10">
         <button
           onClick={() => setActiveTab('all-requests')}
           className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${activeTab === 'all-requests'
-            ? 'bg-[#D4AF37] text-black'
+            ? 'bg-primary text-black'
             : 'bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]'
             }`}
         >
@@ -41,7 +41,7 @@ const Requests = () => {
         <button
           onClick={() => setActiveTab('my-requests')}
           className={`px-6 py-3 rounded-t-lg text-sm font-medium transition-all relative ${activeTab === 'my-requests'
-            ? 'bg-[#D4AF37] text-black'
+            ? 'bg-primary text-black'
             : 'bg-transparent text-gray-400 hover:text-white hover:bg-[#1A1A1A]'
             }`}
         >

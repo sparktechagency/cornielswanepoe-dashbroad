@@ -42,7 +42,7 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className="bg-[#111111] border border-[#D4AF37]/20 rounded-lg p-6">
+        <div className="bg-[#111111] border border-primary/20 rounded-lg p-6">
             <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-lg bg-purple-400/10 flex items-center justify-center">
                     <Lock className="w-5 h-5 text-purple-400" />
@@ -63,7 +63,7 @@ const ChangePassword = () => {
                             type={showPasswords.current ? 'text' : 'password'}
                             value={passwordData.currentPassword}
                             onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                            className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:border-[#D4AF37]"
+                            className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:border-primary"
                             placeholder="Enter current password"
                         />
                         <button
@@ -85,7 +85,7 @@ const ChangePassword = () => {
                             type={showPasswords.new ? 'text' : 'password'}
                             value={passwordData.newPassword}
                             onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                            className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:border-[#D4AF37]"
+                            className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:border-primary"
                             placeholder="Enter new password"
                         />
                         <button
@@ -108,7 +108,7 @@ const ChangePassword = () => {
                             type={showPasswords.confirm ? 'text' : 'password'}
                             value={passwordData.confirmPassword}
                             onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                            className="w-full bg-[#1A1A1A] border border-[#D4AF37]/20 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:border-[#D4AF37]"
+                            className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:border-primary"
                             placeholder="Confirm new password"
                         />
                         <button
