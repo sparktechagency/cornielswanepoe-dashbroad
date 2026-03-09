@@ -29,7 +29,7 @@ const PersonalInformation = () => {
   useEffect(() => {
     if (profileData) {
       console.log("profileData", profileData);
-      
+
       setFormData((prev) => ({ ...prev, name: profileData.name, email: profileData.email, phone: profileData.phone }))
       setExistingProfile(profileData?.image || '')
     }
@@ -50,26 +50,30 @@ const PersonalInformation = () => {
     }
   };
 
-  const handleSaveProfile = async() => {
-   try {
-    const formData = new FormData();
-    const data = {
-      name: form.name,
-      phone: form.phone,
-    }
-    formData.append("data", JSON.stringify(data));
-    if(file){
-      formData.append("image", file);
-    }
+  const handleSaveProfile = async () => {
 
-    const response = await editProfile(formData).unwrap();
-    if(response?.success){
-      toast.success(response?.message);
+    setIsSaving(true)
+    try {
+      const formData = new FormData();
+      const data = {
+        name: form.name,
+        phone: form.phone,
+      }
+      formData.append("data", JSON.stringify(data));
+      if (file) {
+        formData.append("image", file);
+      }
 
+      const response = await editProfile(formData).unwrap();
+      if (response?.success) {
+        toast.success(response?.message);
+        setIsSaving(false)
+
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+      setIsSaving(false)
     }
-   } catch (error:any) {
-    toast.error(error?.data?.message);
-   }
   };
 
 

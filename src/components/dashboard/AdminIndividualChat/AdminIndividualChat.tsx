@@ -2,24 +2,23 @@ import { useNavigate, useParams } from 'react-router';
 
 import {
   ArrowLeft,
-  Ban,
   CheckCheck,
   Flag,
-  Shield,
   Lock,
+  Shield,
   Unlock
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { imageUrl } from '../../../redux/base/baseAPI';
-import { useBlockConversationMutation,  useGetMessagesQuery } from '../../../redux/features/chat/chatApi';
+import { useBlockConversationMutation, useGetMessagesQuery } from '../../../redux/features/chat/chatApi';
 import { useGetProfileQuery } from '../../../redux/features/user/userApi';
 import ChatFooter from './ChatFooter';
-import { toast } from 'sonner';
 
 export default function AdminIndividualChat() {
   const { requestId, chatId } = useParams();
   const navigate = useNavigate();
 
-  const { data: messagesData, isLoading } = useGetMessagesQuery(chatId!, { skip: !chatId });
+  const { data: messagesData } = useGetMessagesQuery(chatId!, { skip: !chatId });
   const { data: profileData } = useGetProfileQuery({});
   const [blockConversation] = useBlockConversationMutation();
   // const [unblockConversation] = useUnblockConversationMutation();

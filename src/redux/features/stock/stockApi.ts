@@ -36,7 +36,7 @@ export const stockApi = baseApi.injectEndpoints({
     }),
 
     getPendingStocks: builder.query({
-      query: () => "/stocks/pending",
+      query: () => `/stocks/pending${location?.search}`,
       providesTags: ["stock"],
     }),
     getSingleStocks: builder.query({

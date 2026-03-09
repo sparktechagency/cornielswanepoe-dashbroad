@@ -5,7 +5,7 @@ import { baseApi } from "../../base/baseAPI";
 export const stockApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getRequests: builder.query({
-            query: () => "/requests",
+            query: () => `/requests/admin${location.search}`,
             providesTags: ["request"],
         }),
         getMyRequests: builder.query({
@@ -32,7 +32,7 @@ export const stockApi = baseApi.injectEndpoints({
             invalidatesTags: ["request"],
         }),
         getPendingRequests: builder.query({
-            query: () => "/requests/pending",
+            query: () => `/requests/pending${location?.search}`,
             providesTags: ["request"],
         }),
         getSingleRequests: builder.query({

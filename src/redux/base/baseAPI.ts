@@ -19,7 +19,7 @@ export const baseApi = createApi({
 
   }),
   endpoints: () => ({}),
-  tagTypes: ["user", "notifications", "admin", "category", "slider", "faqs", "withdrawal", "planner", "stock", "request", "cms"],
+  tagTypes: ["user", "notifications", "admin", "category", "slider", "faqs", "withdrawal", "planner", "stock", "request", "cms", "brief",],
 });
 
 export const imageUrl = "https://rakibur5000.binarybards.online";

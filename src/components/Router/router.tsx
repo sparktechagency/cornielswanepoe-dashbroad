@@ -23,6 +23,7 @@ import CMS from "../dashboard/CMS/CMS";
 import Settings from "../dashboard/Setting/Setting";
 import Notifications from "../dashboard/Notifications/Notifications";
 import PrivateRoute from "./PrivateRouter";
+import Categories from "../dashboard/Categories/Categories";
 
 const router = createBrowserRouter([
     {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
             {
                 path: "stocks",
                 element: <Stocks />
+            },
+            {
+                path: "categories",
+                element: <Categories />
             },
             {
                 path: "stocks/:id",

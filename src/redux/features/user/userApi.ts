@@ -78,14 +78,15 @@ const userApi = baseApi.injectEndpoints({
 
 export const { 
     useGetUsersQuery,
-    useGetAdminQuery,
     useGetProfileQuery,
     useGetAllSubscriberQuery,
-
+    
+    useCreateAdminMutation,
+    useGetAdminQuery,
     useDeleteAdminMutation,
+
     useGetSingleUserQuery,
     useDeleteUserMutation,
     useEditProfileMutation,
-    useCreateAdminMutation,
     useUpdateUserMutation,
  } = userApi;

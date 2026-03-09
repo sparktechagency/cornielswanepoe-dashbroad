@@ -19,7 +19,7 @@ export function AdminRequestDetails() {
     skip: !id,
   });
 
-  const { data: chatsData, isLoading: chatsLoading, error: chatsError } = useGetRequestChatByIdQuery(id!, { skip: !id });
+  const { data: chatsData,  } = useGetRequestChatByIdQuery(id!, { skip: !id });
 
   const isApprovalView = location.pathname.includes('/approvals/');
 

@@ -1,8 +1,8 @@
 import { Eye, EyeOff, Lock } from 'lucide-react';
-import React, { useState } from 'react'
-import { Button } from '../../ui/button';
-import { useChangePasswordMutation } from '../../../redux/features/auth/authApi';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { useChangePasswordMutation } from '../../../redux/features/auth/authApi';
+import { Button } from '../../ui/button';
 
 const ChangePassword = () => {
     const [passwordData, setPasswordData] = useState({
@@ -31,13 +31,16 @@ const ChangePassword = () => {
         }
 
        try {
+        setIsSaving(true)
         const response = await changePassword(passwordData)?.unwrap();
 
         if(response?.success){
             toast.success(response?.message);
+            setIsSaving(true)
         }
-       } catch (error:any) {
-            toast.error(error?.data?.message);
+    } catch (error:any) {
+        toast.error(error?.data?.message);
+        setIsSaving(false)
        }
     };
 

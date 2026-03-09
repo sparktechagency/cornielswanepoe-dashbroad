@@ -1,14 +1,13 @@
 import { Building2, Calendar, DollarSign, Download, TrendingDown, TrendingUp, Users } from "lucide-react";
 import { useState } from "react";
-import { Button } from "../../ui/button";
-import { monthlyData } from "../../../assets/data";
 import { useGetAnalyticsQuery } from "../../../redux/features/dashboard/dashboardApi";
+import { Button } from "../../ui/button";
 
 
 export default function Statics() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
 
-    const {data: dashboardData, isLoading, error} = useGetAnalyticsQuery(selectedYear);
+    const {data: dashboardData} = useGetAnalyticsQuery(selectedYear);
 
     console.log("dashboardData:", dashboardData);
     

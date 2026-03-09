@@ -1,6 +1,5 @@
 import {
     AlertCircle,
-    AlertTriangle,
     ArrowLeft,
     Calendar,
     CheckCircle,
@@ -10,19 +9,22 @@ import {
     MessageSquare,
     Search,
     Send,
-    Trash2,
     User,
     XCircle,
     Zap
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { imageUrl } from '../../../redux/base/baseAPI';
+
 import { useGetRequestsQuery } from '../../../redux/features/request/requestApi';
+import { getSearchParams } from '../../../utils/getSearchParams';
+import { useUpdateSearchParams } from '../../../utils/updateSearchParams';
+import ManagePagination from '../../Shared/ManagePagination';
 import { Button } from '../../ui/button';
+import { imageUrl } from '../../../redux/base/baseAPI';
 
 type Category = 'Vacant Land' | 'Farms' | 'Hotels' | 'Investment Portfolios' | 'all';
-type RequestStatus = 'Open' | 'Active' | 'Closed' | 'all';
+
 type ApprovalStatus = 'pending' | 'approved' | 'rejected';
 
 interface Message {
@@ -64,11 +66,11 @@ interface Conversation {
 
 const getStatusBadge = (status: string) => {
     const styles = {
-        'Open': 'bg-blue-400/10 text-blue-400',
-        'Active': 'bg-green-400/10 text-green-400',
-        'Closed': 'bg-gray-400/10 text-gray-400'
+        'open': 'bg-blue-400/10 text-blue-400',
+        'active': 'bg-green-400/10 text-green-400',
+        'cancelled': 'bg-gray-400/10 text-gray-400'
     };
-    return styles[status as keyof typeof styles] || styles.Open;
+    return styles[status as keyof typeof styles] || styles.open;
 };
 
 const getUserTypeColor = (type: string) => {
@@ -368,18 +370,19 @@ function AdminConversationDetail({ conversation, onBack }: AdminConversationDeta
 }
 
 export default function AllRequests() {
-    const navigate = useNavigate();
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [selectedStatus, setSelectedStatus] = useState<RequestStatus>('all');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [requestToDelete, setRequestToDelete] = useState<Conversation | null>(null);
-
-    const { data: requestsData, isLoading, error } = useGetRequestsQuery({});
-
-
-    console.log("requestsData", requestsData);
+    const navigate = useNavigate();    
     
+    const { data: requestsData, refetch } = useGetRequestsQuery({});
+
+
+    const updateSearchParams = useUpdateSearchParams();
+    const { searchTerm, page } = getSearchParams();
+    
+    useEffect(() => {
+        refetch()
+    }, [searchTerm, page]);
+
+
     const getUrgencyColor = (urgency: string) => {
         switch (urgency) {
             case 'high': return 'text-red-400';
@@ -389,48 +392,17 @@ export default function AllRequests() {
         }
     };
     return (
-        <div className="">       
-            <div className="bg-[#111111] border border-primary/20 flex items-center gap-5 rounded-lg  mb-6">
-                <div className="relative w-full">
+        <div className="">
+            <div className=" flex items-center justify-end gap-5 rounded-lg mb-6">
+                <div className="relative w-1/3">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                     <input
                         type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        value={searchTerm}
+                        onChange={(e) => { updateSearchParams({ searchTerm: e.target.value }) }}
                         placeholder="Search conversations..."
                         className="w-full bg-[#1A1A1A] border border-primary/20 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
                     />
-                </div>
-                <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <select
-                            value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="appearance-none bg-[#1A1A1A] border border-primary/20 rounded-lg px-4 py-3.5 pr-10 text-white text-sm font-medium focus:outline-none focus:border-primary transition-colors cursor-pointer hover:border-primary/40"
-                        >
-                            <option value="">All Categories</option>
-                            <option value="real_estate">🏢 Real Estate</option>
-                            <option value="startup">🚀 Startup</option>
-                            <option value="technology">💻 Technology</option>
-                            <option value="business">📊 Business</option>
-                        </select>
-
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg
-                                className="w-4 h-4 text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19 9l-7 7-7-7"
-                                />
-                            </svg>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -509,19 +481,6 @@ export default function AllRequests() {
                                             <Eye className="w-3 h-3" />
                                             View
                                         </Button>
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            className="text-xs text-red-500"
-                                            onClick={(e) => {
-                                                e?.stopPropagation();
-                                                setRequestToDelete(conv);
-                                                setShowDeleteModal(true);
-                                            }}
-                                        >
-                                            <Trash2 className="w-3 h-3" />
-                                            Delete
-                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -530,60 +489,9 @@ export default function AllRequests() {
                 ))}
             </div>
 
-
-            {/* Delete Confirmation Modal */}
-            {showDeleteModal && requestToDelete && (
-                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-                    <div className="bg-[#111111] border border-red-500/30 rounded-lg max-w-md w-full p-6">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                                <AlertTriangle className="w-6 h-6 text-red-500" />
-                            </div>
-                            <h2 className="text-2xl font-serif text-white">Delete Request</h2>
-                        </div>
-
-                        <div className="mb-6">
-                            <p className="text-gray-300 mb-2">
-                                Are you sure you want to permanently delete this request and all associated conversations?
-                            </p>
-                            <div className="p-3 bg-[#1A1A1A] rounded-lg border border-primary/20">
-                                <p className="text-white font-medium">{requestToDelete.title}</p>
-                                <p className="text-gray-400 text-sm">Posted by: {requestToDelete.userName}</p>
-                            </div>
-                            <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                                <p className="text-red-400 text-sm">
-                                    ⚠️ This action cannot be undone. All conversation history will be permanently lost.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3">
-                            <Button
-                                onClick={() => {
-                                    setShowDeleteModal(false);
-                                    setRequestToDelete(null);
-                                }}
-                                variant="outline"
-                                className="flex-1"
-                            >
-                                Cancel
-                            </Button>
-                            <button
-                                onClick={() => {
-                                    console.log('Deleting request:', requestToDelete.id);
-                                    alert('Request deleted successfully');
-                                    setShowDeleteModal(false);
-                                    setRequestToDelete(null);
-                                }}
-                                className="flex-1 px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all flex items-center justify-center gap-2 font-medium"
-                            >
-                                <Trash2 className="w-4 h-4" />
-                                Delete Request
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* ---- Pagination  */}
+            <ManagePagination meta={requestsData?.meta}/>
+            
         </div>
     );
 }

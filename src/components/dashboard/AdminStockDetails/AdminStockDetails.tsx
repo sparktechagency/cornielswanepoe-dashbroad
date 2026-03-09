@@ -5,7 +5,6 @@ import {
   Calendar,
   CheckCircle,
   DollarSign,
-  Edit3,
   Heart,
   Mail,
   MapPin,
@@ -18,11 +17,11 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { Button } from '../../ui/button';
-import { useGetSingleStocksQuery, useStockApprovalMutation } from '../../../redux/features/stock/stockApi';
-import { imageUrl } from '../../../redux/base/baseAPI';
 import { toast } from 'sonner';
 import Swal from 'sweetalert2';
+import { imageUrl } from '../../../redux/base/baseAPI';
+import { useGetSingleStocksQuery, useStockApprovalMutation } from '../../../redux/features/stock/stockApi';
+import { Button } from '../../ui/button';
 
 interface InterestedParty {
   id: number;
@@ -44,7 +43,7 @@ export default function AdminStockDetails() {
   const [selectedParty, setSelectedParty] = useState<InterestedParty | null>(null);
 
   const { data: stockData } = useGetSingleStocksQuery(id!);
-  const [stockApproval, { isLoading: isApproving }] = useStockApprovalMutation({})
+  const [stockApproval] = useStockApprovalMutation({})
 
 
 

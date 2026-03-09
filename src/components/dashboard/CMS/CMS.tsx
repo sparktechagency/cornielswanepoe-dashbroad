@@ -1,5 +1,4 @@
 import {
-  CheckCircle,
   Clock,
   Globe
 } from 'lucide-react';
@@ -12,7 +11,7 @@ import { TermsConditions } from './TermsConditions';
 export default function CMS() {
   const [selectedPage, setSelectedPage] = useState('about');
 
-  const [pages, setPages] = useState([
+  const [pages] = useState([
     {
       id: 'about',
       title: 'About Us',

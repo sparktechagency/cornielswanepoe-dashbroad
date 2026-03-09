@@ -1,28 +1,27 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Plus, X, Loader2 } from "lucide-react";
+import { Loader2, Plus, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 // ShadCN imports
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogTrigger,
+  DialogHeader,
+  DialogTitle
 } from "../../ui/dialog";
 
-import { Textarea } from "../../ui/textarea";
-import { Button } from "../../ui/button";
-import { Switch } from "../../ui/switch";
-import { Label } from "../../ui/label";
-import { Card } from "../../ui/card";
-import { Input } from "../../ui/input";
 import { useUpdateStockMutation } from "../../../redux/features/stock/stockApi";
 import ImagesUpload from "../../Shared/ImagesUploader";
+import { Button } from "../../ui/button";
+import { Card } from "../../ui/card";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
+import { Switch } from "../../ui/switch";
+import { Textarea } from "../../ui/textarea";
 
 interface UpdateStockModalProps {
   open: boolean;

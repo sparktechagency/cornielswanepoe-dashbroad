@@ -137,7 +137,7 @@ export default function StockCard({
         {/* Action icons */}
         <div className="flex gap-1 justify-center items-start flex-shrink-0 ml-2">
           <a
-            href={`/user-dashboard/stock/${item._id}`}
+            href={`/stocks/${item._id}`}
             className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/8 transition-colors"
             title="View"
           >

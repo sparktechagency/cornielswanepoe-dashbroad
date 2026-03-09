@@ -1,9 +1,9 @@
-import { Building2, CheckCircle, MessageSquare, Plus } from "lucide-react";
+import { Building2, MessageSquare, Plus } from "lucide-react";
 import { useState } from "react";
 
-import MyRequests from "./MyRequests";
-import AllRequests from "./AllRequests";
 import { Button } from "../../ui/button";
+import AllRequests from "./AllRequests";
+import MyRequests from "./MyRequests";
 import NewRequestModal from "./NewRequestModal";
 
 const Requests = () => {

@@ -13,7 +13,7 @@ const categoryApi = baseApi.injectEndpoints({
     }),
 
     getCategories: build.query({
-      query: () => `/categories/for-admin${location?.search || ""}`,
+      query: () => `/categories${location?.search || ""}`,
       providesTags: ["category"],
       transformResponse: (res: { data: any }) => res.data,
     }),

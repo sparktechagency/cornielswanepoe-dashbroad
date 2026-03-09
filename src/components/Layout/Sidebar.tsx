@@ -12,7 +12,8 @@ import {
   Newspaper,
   Settings,
   UserCog,
-  Users
+  Users,
+  Box
 } from 'lucide-react';
 import { useState } from "react";
 
@@ -30,6 +31,7 @@ const navItems = [
   { path: '/admins', icon: UserCog, label: 'Admin Management' },
   { path: '/approvals', icon: CheckCircle, label: 'Approval', badge: 5 },
   { path: '/requests', icon: MessageSquare, label: 'Requests Board' },
+  { path: '/categories', icon: Box, label: 'Categories' },
   { path: '/stocks', icon: Building2, label: 'Stocks' },
   { path: '/billing', icon: CreditCard, label: 'Billing & Revenue' },
   { path: '/investor-brief', icon: Newspaper, label: 'Investor Brief' },

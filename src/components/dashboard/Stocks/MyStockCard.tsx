@@ -24,18 +24,9 @@ function getStatusStyle(status?: string) {
   }
 }
 
-function getCategoryLabel(title: string, category?: string) {
-  if (category) return category.toUpperCase();
-  if (title.toLowerCase().includes("land")) return "AGRICULTURAL";
-  if (title.toLowerCase().includes("villa") || title.toLowerCase().includes("house"))
-    return "RESIDENTIAL";
-  if (title.toLowerCase().includes("commercial")) return "COMMERCIAL";
-  return "PROPERTY";
-}
 
 export default function MyStockCard({
-  item,
-  canExpressInterest,
+  item,  
   setSelectStock,
   setOpenUpdateForm,
   setDeleteModal,
@@ -146,7 +137,7 @@ export default function MyStockCard({
         {/* Action icons */}
         <div className="flex gap-1 justify-center items-start flex-shrink-0 ml-2">
           <Link
-            to={`/user-dashboard/my-listing/stock/${item._id}`}
+            to={`/stocks/${item._id}`}
             className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/8 transition-colors"
             title="View"
           >
