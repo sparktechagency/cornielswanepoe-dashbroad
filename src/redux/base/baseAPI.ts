@@ -19,7 +19,7 @@ export const baseApi = createApi({
 
   }),
   endpoints: () => ({}),
-  tagTypes: ["user", "notifications", "admin", "category", "slider", "faqs", "withdrawal", "planner", "stock", "request", "cms", "brief",],
+  tagTypes: ["user", "notifications", "admin", "category", "slider", "faqs", "withdrawal", "planner", "stock", "request", "cms", "brief",  "profile", "Feedback"],
 });
 
 export const imageUrl = "https://api.investors-hub.co.za";

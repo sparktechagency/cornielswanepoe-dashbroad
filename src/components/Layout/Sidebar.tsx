@@ -29,12 +29,13 @@ const navItems = [
   { path: '/', icon: LayoutDashboard, label: 'Dashboard', exact: true },
   { path: '/users', icon: Users, label: 'User Management' },
   { path: '/admins', icon: UserCog, label: 'Admin Management' },
-  { path: '/approvals', icon: CheckCircle, label: 'Approval', badge: 5 },
+  { path: '/approvals', icon: CheckCircle, label: 'Approval' },
   { path: '/requests', icon: MessageSquare, label: 'Requests Board' },
   { path: '/categories', icon: Box, label: 'Categories' },
   { path: '/stocks', icon: Building2, label: 'Stocks' },
   { path: '/billing', icon: CreditCard, label: 'Billing & Revenue' },
   { path: '/investor-brief', icon: Newspaper, label: 'Investor Brief' },
+  { path: '/feedback', icon: FileText, label: 'Feedback' },
   { path: '/cms', icon: FileText, label: 'CMS Editor' },
   { path: '/settings', icon: Settings, label: 'Settings' }
 ];
@@ -92,12 +93,7 @@ export default function Sidebar() {
                   `}
               >
                 <Icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
-                {item.badge && (
-                  <span className="ml-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                    {item.badge}
-                  </span>
-                )}
+                <span className="font-medium">{item.label}</span>               
               </Link>
             );
           })}

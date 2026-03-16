@@ -202,10 +202,11 @@ const PersonalInformation = () => {
 
           <div className="pt-4">
             <Button
+            type='submit'
               onClick={handleSaveProfile}
               disabled={isSaving}
-              size="sm"
-              className="flex items-center gap-2"
+              size="lg"
+              className="flex items-center gap-2 w-full"
             >
               <Save className="w-4 h-4" />
               {isSaving ? 'Saving...' : 'Save Profile'}

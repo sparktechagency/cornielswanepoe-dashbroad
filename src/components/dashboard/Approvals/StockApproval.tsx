@@ -72,7 +72,7 @@ export default function StockApproval() {
     );
   }
 
-  const handleApprove = async (id: string, status: string) => {
+  const handleApprove = async (id: string, status: string) => { 
     const isApprove = status === "active";
 
     const result = await Swal.fire({

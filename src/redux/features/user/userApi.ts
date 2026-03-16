@@ -16,6 +16,7 @@ const userApi = baseApi.injectEndpoints({
     getProfile: build.query({
       query: ()=> `/users/profile`,
       transformResponse: (response: {data: any})=> response.data,
+      providesTags: ['profile']
     }),
 
     // ------------ Admin -----------------
@@ -49,7 +50,8 @@ const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
         }
-      }
+      },
+      invalidatesTags: ["profile"]
     }),
     updateUser: build.mutation({
       query: (data)=>{        

@@ -128,8 +128,8 @@ const ChangePassword = () => {
                     <Button
                         onClick={handleChangePassword}
                         disabled={isSaving || !passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword}
-                        size="sm"
-                        className="flex items-center gap-2"
+                        size="lg"
+                        className="flex items-center gap-2 w-full"
                     >
                         <Lock className="w-4 h-4" />
                         {isSaving ? 'Updating...' : 'Change Password'}

@@ -29,7 +29,7 @@ const ChatList = ({ chatsData }: any) => {
         {/* Chat Cards */}
         <div className="p-6 space-y-3 bg-[#0A0A0A]">
           {/* Chat 1: Seller_001 with Buyer_789 */}
-          {chatsData?.conversations?.length && chatsData?.conversations?.map((chat: any) => 
+          {chatsData?.conversations?.length > 0 ? chatsData?.conversations?.map((chat: any) => 
           <div key={chat._id}
             className="bg-[#111111] border border-white/5 hover:border-primary/30 rounded-lg p-4 transition-all cursor-pointer group"
           >
@@ -65,7 +65,7 @@ const ChatList = ({ chatsData }: any) => {
               </div>
             </div>
 
-          </div>)}
+          </div>): <p className='capitalize text-center text-slate-600 font-semibold text-lg'>No conversation start yet</p>}
 
         </div>
       </div>

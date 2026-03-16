@@ -24,6 +24,7 @@ import Settings from "../dashboard/Setting/Setting";
 import Notifications from "../dashboard/Notifications/Notifications";
 import PrivateRoute from "./PrivateRouter";
 import Categories from "../dashboard/Categories/Categories";
+import Feedback from "../dashboard/Feedback/Feedback";
 
 const router = createBrowserRouter([
     {
@@ -74,12 +75,12 @@ const router = createBrowserRouter([
                 element: <Stocks />
             },
             {
-                path: "categories",
-                element: <Categories />
-            },
-            {
                 path: "stocks/:id",
                 element: <AdminStockDetails />
+            },
+            {
+                path: "categories",
+                element: <Categories />
             },
             {
                 path: "billing",
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
             {
                 path: "investor-brief",
                 element: <InvestorBrief />
+            },
+            {
+                path: "feedback",
+                element: <Feedback />
             },
             {
                 path: "cms",

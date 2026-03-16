@@ -206,7 +206,7 @@ return (
       {/* Header */}
       <div className="mb-6">
         <button
-          onClick={() => navigate(isApprovalView ? '/approvals' : '/stock')}
+          onClick={() => navigate(isApprovalView ? '/approvals' : '/stocks')}
           className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-4"
         >
           <ArrowLeft className="w-4 h-4" />

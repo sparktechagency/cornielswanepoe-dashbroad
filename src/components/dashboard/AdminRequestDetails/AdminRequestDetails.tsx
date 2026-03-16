@@ -108,11 +108,7 @@ export function AdminRequestDetails() {
               <Calendar className="w-4 h-4 text-gray-500" />
               Posted: {formatDate(request?.createdAt)}
             </div>
-            {/* If you later add location field */}
-            {/* <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-gray-500" />
-              {request?.location || 'Not specified'}
-            </div> */}
+
             <div className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-primary" />
               <span className="text-primary font-medium">{request?.budgetRange}</span>
