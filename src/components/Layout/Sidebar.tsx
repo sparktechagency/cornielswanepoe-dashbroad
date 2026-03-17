@@ -13,7 +13,8 @@ import {
   Settings,
   UserCog,
   Users,
-  Box
+  Box,
+  BadgeQuestionMark
 } from 'lucide-react';
 import { useState } from "react";
 
@@ -27,6 +28,7 @@ import { useState } from "react";
 
 const navItems = [
   { path: '/', icon: LayoutDashboard, label: 'Dashboard', exact: true },
+  { path: '/kyc-submission', icon: Users, label: 'KYC Submission' },
   { path: '/users', icon: Users, label: 'User Management' },
   { path: '/admins', icon: UserCog, label: 'Admin Management' },
   { path: '/approvals', icon: CheckCircle, label: 'Approval' },
@@ -37,7 +39,8 @@ const navItems = [
   { path: '/investor-brief', icon: Newspaper, label: 'Investor Brief' },
   { path: '/feedback', icon: FileText, label: 'Feedback' },
   { path: '/cms', icon: FileText, label: 'CMS Editor' },
-  { path: '/settings', icon: Settings, label: 'Settings' }
+  { path: '/settings', icon: Settings, label: 'Settings' },
+  { path: '/faq', icon: BadgeQuestionMark, label: 'FAQ' }
 ];
 // ────────────────────────────────────────────────
 export default function Sidebar() {
@@ -74,7 +77,7 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 p-4 overflow-y-auto">
-        <div className="space-y-2">
+        <div className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
@@ -85,7 +88,7 @@ export default function Sidebar() {
                 to={item.path}
                 onClick={() => setIsSidebarOpen(false)}
                 className={`
-                    flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                    flex items-center gap-3 px-4 py-2 rounded-lg transition-all
                     ${active
                     ? 'bg-primary/20 text-primary border border-primary'
                     : 'text-gray-400 hover:text-white hover:bg-[#1A1A1A]'

@@ -25,6 +25,8 @@ import Notifications from "../dashboard/Notifications/Notifications";
 import PrivateRoute from "./PrivateRouter";
 import Categories from "../dashboard/Categories/Categories";
 import Feedback from "../dashboard/Feedback/Feedback";
+import Faq from "../dashboard/Faq/Faq";
+import KycSubmission from "../dashboard/Kyc/KycSubmission";
 
 const router = createBrowserRouter([
     {
@@ -97,6 +99,14 @@ const router = createBrowserRouter([
             {
                 path: "cms",
                 element: <CMS />
+            },
+            {
+                path: "faq",
+                element: <Faq />
+            },
+            {
+                path: "kyc-submission",
+                element: <KycSubmission />
             },
             {
                 path: "settings",

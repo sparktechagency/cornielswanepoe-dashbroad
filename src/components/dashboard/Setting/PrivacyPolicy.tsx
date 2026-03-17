@@ -32,8 +32,7 @@ const PrivacyPolicy = () => {
 
 
     const handleSavePrivacy = async () => {
-        setLoading(true);
-        console.log("Saving privacy policy:", privacySettings);
+        setLoading(true);        
         await new Promise(resolve => setTimeout(resolve, 1000));
         setIsEditingPrivacy(false);
         setLoading(false);

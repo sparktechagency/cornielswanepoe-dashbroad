@@ -4,8 +4,8 @@ const settingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getFAQ: builder.query({
       query: () => "/faqs",
-      providesTags: ["faqs"]
-      // transformResponse: (res: { data: any }) => res?.data,
+      providesTags: ["faqs"],
+      transformResponse: (res: { data: any }) => res?.data,
     }),
     addFAQ: builder.mutation({
       query: (data) => ({
@@ -96,10 +96,26 @@ const settingApi = baseApi.injectEndpoints({
     }),
 
     // ---------------- Commission Manage  End---------------
-
     getNotification: builder.query({
       query: () => "/reports",
       transformResponse: (res: { data: any }) => res?.data,
+    }),
+
+    // ---------------- Kyc ---------------
+    getKycSubmission: builder.query({
+      query: () => "/kyc/kyc",
+      transformResponse: (res: { data: any }) => res?.data,
+      providesTags: ["kyc"]
+    }),
+   
+    
+    kycUpdate: builder.mutation({
+      query: (data) => ({
+        url: `/kyc/change-kyc-status/${data?.id}`,
+        method: "PUT",
+        body: data,
+      }),      
+      invalidatesTags: ["kyc"]
     }),
   }),
 });
@@ -124,4 +140,7 @@ export const {
 
   useGetTermsConditionQuery,
   useAddDisclaimerMutation,
+
+  useGetKycSubmissionQuery,
+  useKycUpdateMutation,
 } = settingApi;
